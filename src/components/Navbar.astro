@@ -1,0 +1,188 @@
+---
+---
+<header class="navbar glass-panel">
+  <div class="nav-container">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
+          <circle cx="18" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
+          <circle cx="6" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
+          <circle cx="18" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
+          <line x1="6" y1="6" x2="18" y2="6" stroke="var(--player1-color)" stroke-width="3" />
+          <line x1="6" y1="6" x2="6" y2="18" stroke="var(--player2-color)" stroke-width="3" />
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 class="game-title">DOTS & BOXES</h1>
+        <span class="version-tag">PRO</span>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <!-- Mode Selector -->
+      <div class="select-wrapper">
+        <label for="mode-select" class="sr-only">Game Mode</label>
+        <select id="mode-select" class="btn select-input">
+          <option value="pve">vs AI Bot</option>
+          <option value="pvp">2 Player (Local)</option>
+          <option value="eve">AI vs AI (Spectate)</option>
+          <option value="sandbox">Sandbox Practice</option>
+        </select>
+      </div>
+
+      <!-- Theme Switcher Dropdown -->
+      <div class="select-wrapper">
+        <label for="theme-select" class="sr-only">Theme</label>
+        <select id="theme-select" class="btn select-input">
+          <option value="cyberpunk">⚡ Cyberpunk</option>
+          <option value="geist">✦ Geist Clean</option>
+          <option value="arcade">🕹️ Retro Arcade</option>
+          <option value="emerald">🌿 Emerald</option>
+        </select>
+      </div>
+
+      <!-- Sound Toggle -->
+      <button id="sound-toggle-btn" class="btn btn-icon" title="Toggle Sound">
+        <svg id="sound-icon-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="sound-icon-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        </svg>
+      </button>
+
+      <!-- Stats Modal Trigger -->
+      <button id="open-stats-btn" class="btn btn-icon" title="View Statistics">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+      </button>
+
+      <!-- Tutorial Modal Trigger -->
+      <button id="open-tutorial-btn" class="btn btn-icon" title="How to Play">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .navbar {
+    width: 100%;
+    max-width: 1100px;
+    margin: 16px 16px 0 16px;
+    padding: 12px 24px;
+    z-index: 10;
+  }
+
+  .nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+  }
+
+  .brand-text {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .game-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, var(--text-main) 60%, var(--player1-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .version-tag {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    background: var(--player1-bg);
+    color: var(--player1-color);
+    border: 1px solid var(--player1-glow);
+    border-radius: 6px;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .select-wrapper {
+    position: relative;
+  }
+
+  .select-input {
+    appearance: none;
+    padding-right: 30px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+
+  @media (max-width: 640px) {
+    .navbar {
+      margin: 8px;
+      padding: 10px 14px;
+    }
+    .game-title {
+      font-size: 1.1rem;
+    }
+    .nav-actions {
+      gap: 6px;
+    }
+    .select-input {
+      font-size: 0.8rem;
+      padding: 6px 24px 6px 8px;
+    }
+  }
+</style>

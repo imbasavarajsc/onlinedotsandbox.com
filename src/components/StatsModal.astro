@@ -1,0 +1,140 @@
+---
+---
+<div id="stats-modal" class="modal-overlay">
+  <div class="modal-content stats-card">
+    <div class="modal-header">
+      <h2 class="modal-title">📊 Game Statistics</h2>
+      <button id="close-stats-btn" class="close-btn">&times;</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-tile">
+        <span id="stat-total-games" class="stat-number">0</span>
+        <span class="stat-label">Matches Played</span>
+      </div>
+
+      <div class="stat-tile">
+        <span id="stat-p1-wins" class="stat-number">0</span>
+        <span class="stat-label">P1 Wins</span>
+      </div>
+
+      <div class="stat-tile">
+        <span id="stat-total-boxes" class="stat-number">0</span>
+        <span class="stat-label">Boxes Captured</span>
+      </div>
+
+      <div class="stat-tile">
+        <span id="stat-streak" class="stat-number">0</span>
+        <span class="stat-label">Longest Streak</span>
+      </div>
+    </div>
+
+    <div class="ai-stats-section">
+      <h3>AI Conquest Record</h3>
+      <div class="ai-record-row">
+        <span>⭐ Easy AI Wins</span>
+        <span id="stat-easy-wins" class="ai-count">0</span>
+      </div>
+      <div class="ai-record-row">
+        <span>⭐⭐ Medium AI Wins</span>
+        <span id="stat-medium-wins" class="ai-count">0</span>
+      </div>
+      <div class="ai-record-row">
+        <span>⭐⭐⭐ Hard AI Wins</span>
+        <span id="stat-hard-wins" class="ai-count">0</span>
+      </div>
+    </div>
+
+    <div class="modal-footer stats-footer">
+      <button id="reset-stats-btn" class="btn btn-sm" style="color: #ef4444;">
+        Reset Statistics
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .stats-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+
+  .close-btn {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--player1-color);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .ai-stats-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+  }
+
+  .ai-stats-section h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-main);
+
+  }
+
+  .ai-record-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .ai-count {
+    font-weight: 700;
+    color: var(--accent-gold);
+  }
+
+  .stats-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>

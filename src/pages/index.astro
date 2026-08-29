@@ -1,11 +1,44 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Navbar from '../components/Navbar.astro';
+import Scoreboard from '../components/Scoreboard.astro';
+import GameBoard from '../components/GameBoard.astro';
+import GameControls from '../components/GameControls.astro';
+import VictoryModal from '../components/VictoryModal.astro';
+import TutorialModal from '../components/TutorialModal.astro';
+import StatsModal from '../components/StatsModal.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Dots & Boxes Pro - Modern Strategy Web Game">
+	<main class="game-layout">
+		<Navbar />
+		<Scoreboard />
+		<GameBoard />
+		<GameControls />
+	</main>
+
+	<!-- Modals -->
+	<VictoryModal />
+	<TutorialModal />
+	<StatsModal />
 </Layout>
+
+<script>
+	import { initApp } from '../scripts/appController';
+
+	document.addEventListener('DOMContentLoaded', () => {
+		initApp();
+	});
+</script>
+
+<style>
+	.game-layout {
+		width: 100%;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		padding-bottom: 40px;
+	}
+</style>

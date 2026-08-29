@@ -1,0 +1,116 @@
+---
+---
+<div id="tutorial-modal" class="modal-overlay">
+  <div class="modal-content tutorial-card">
+    <div class="modal-header">
+      <h2 class="modal-title">💡 How to Play Dots & Boxes</h2>
+      <button id="close-tutorial-btn" class="close-btn">&times;</button>
+    </div>
+
+    <div class="tutorial-body">
+      <!-- Step 1 -->
+      <div class="tutorial-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <h3>Take Turns Drawing Lines</h3>
+          <p>Click or tap between two adjacent dots to draw a horizontal or vertical line.</p>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="tutorial-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <h3>Claim Boxes & Get Extra Turns</h3>
+          <p>Draw the <strong>fourth side</strong> of a 1x1 box to claim it! You earn 1 point and <strong>immediately get another turn</strong>.</p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="tutorial-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <h3>Master the Chain Strategy</h3>
+          <p>Avoid placing the 3rd line on any box so you don't hand your opponent a free box! Force them to open up a chain of boxes for you to sweep.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button id="got-it-btn" class="btn btn-primary" style="width: 100%;">
+        Got it! Let's Play
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tutorial-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+  }
+
+  .close-btn {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+  }
+
+  .close-btn:hover {
+    color: var(--text-main);
+  }
+
+  .tutorial-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .tutorial-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--player1-color);
+    color: #000;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-text h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .step-text p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+</style>

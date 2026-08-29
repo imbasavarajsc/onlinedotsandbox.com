@@ -1,0 +1,114 @@
+---
+---
+<div id="victory-modal" class="modal-overlay">
+  <div class="modal-content victory-card">
+    <div class="victory-header">
+      <div id="winner-trophy" class="trophy-icon">🏆</div>
+      <h2 id="winner-title" class="victory-title">PLAYER 1 WINS!</h2>
+      <p id="winner-subtitle" class="victory-subtitle">Dominating victory with 5 boxes captured</p>
+    </div>
+
+    <div class="victory-stats">
+      <div class="stat-box p1-stat">
+        <span id="modal-p1-name" class="stat-label">Player 1</span>
+        <span id="modal-p1-score" class="stat-val">5</span>
+      </div>
+      <div class="stat-vs">VS</div>
+      <div class="stat-box p2-stat">
+        <span id="modal-p2-name" class="stat-label">AI Bot</span>
+        <span id="modal-p2-score" class="stat-val">4</span>
+      </div>
+    </div>
+
+    <div class="victory-actions">
+      <button id="rematch-btn" class="btn btn-primary btn-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+        </svg>
+        Play Again
+      </button>
+
+      <button id="close-victory-btn" class="btn btn-lg">
+        Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .victory-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .trophy-icon {
+    font-size: 3.5rem;
+    animation: popIn var(--transition-bounce);
+  }
+
+  .victory-title {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-top: 8px;
+    background: linear-gradient(135deg, var(--accent-gold), #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .victory-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .victory-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+  }
+
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .stat-val {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--text-main);
+  }
+
+  .stat-vs {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--text-faint);
+  }
+
+  .victory-actions {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 1rem;
+    flex: 1;
+  }
+</style>
