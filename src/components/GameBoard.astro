@@ -106,11 +106,12 @@
   :global(.box-label) {
     font-family: var(--font-family);
     font-weight: 800;
-    font-size: 22px;
+    font-size: 20px;
     text-anchor: middle;
     dominant-baseline: central;
     pointer-events: none;
-    animation: popIn var(--transition-bounce);
+    opacity: 0.95;
+    transition: opacity var(--transition-normal);
   }
 
   :global(.box-label.p1-text) {

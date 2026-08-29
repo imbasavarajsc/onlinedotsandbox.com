@@ -86,7 +86,11 @@ function renderBoard() {
         text.setAttribute('x', `${x + spacing / 2}`);
         text.setAttribute('y', `${y + spacing / 2}`);
         text.setAttribute('class', `box-label ${box.owner === 1 ? 'p1-text' : 'p2-text'}`);
-        text.textContent = box.owner === 1 ? 'P1' : (state.config.mode === 'pve' || state.config.mode === 'eve' ? 'AI' : 'P2');
+        if (box.owner === 1) {
+          text.textContent = 'P1';
+        } else {
+          text.textContent = state.config.mode === 'pve' ? 'AI' : 'P2';
+        }
         boxesGroup.appendChild(text);
       }
     }
@@ -250,6 +254,8 @@ function renderScoreboard() {
   const p2Score = document.getElementById('p2-score');
   const p1Name = document.getElementById('p1-name');
   const p2Name = document.getElementById('p2-name');
+  const p1Avatar = document.getElementById('p1-avatar');
+  const p2Avatar = document.getElementById('p2-avatar');
   const statusMsg = document.getElementById('status-message');
   const streakBanner = document.getElementById('streak-banner');
   const streakCount = document.getElementById('streak-count');
@@ -267,14 +273,28 @@ function renderScoreboard() {
   if (p1Score) p1Score.textContent = `${state.scores[1]}`;
   if (p2Score) p2Score.textContent = `${state.scores[2]}`;
 
-  if (p1Name) p1Name.textContent = state.config.player1Name;
+  if (p1Name && document.activeElement !== p1Name) {
+    p1Name.textContent = state.config.player1Name;
+  }
+  
   if (p2Name) {
-    if (state.config.mode === 'pvp' || state.config.mode === 'sandbox') {
-      p2Name.textContent = state.config.player2Name;
-    } else if (state.config.mode === 'eve') {
-      p2Name.textContent = `Bot 2 (${state.config.aiDifficulty.toUpperCase()})`;
+    const isHuman2 = state.config.mode === 'pvp' || state.config.mode === 'sandbox';
+    p2Name.setAttribute('contenteditable', isHuman2 ? 'true' : 'false');
+    if (document.activeElement !== p2Name) {
+      if (isHuman2) {
+        p2Name.textContent = state.config.player2Name;
+      } else {
+        p2Name.textContent = `AI Bot (${state.config.aiDifficulty.toUpperCase()})`;
+      }
+    }
+  }
+
+  if (p1Avatar) p1Avatar.textContent = 'P1';
+  if (p2Avatar) {
+    if (state.config.mode === 'pve') {
+      p2Avatar.textContent = 'AI';
     } else {
-      p2Name.textContent = `AI Bot (${state.config.aiDifficulty.toUpperCase()})`;
+      p2Avatar.textContent = 'P2';
     }
   }
 
@@ -442,14 +462,32 @@ function setupEventListeners() {
     applyTheme(newTheme);
   });
 
+  // Editable Player Name Listeners
+  const p1NameElem = document.getElementById('p1-name');
+  p1NameElem?.addEventListener('input', () => {
+    state.config.player1Name = p1NameElem.textContent?.trim() || 'Player 1';
+  });
+
+  const p2NameElem = document.getElementById('p2-name');
+  p2NameElem?.addEventListener('input', () => {
+    if (state.config.mode === 'pvp' || state.config.mode === 'sandbox') {
+      state.config.player2Name = p2NameElem.textContent?.trim() || 'Player 2';
+    }
+  });
+
   // Mode Selector
   const modeSelect = document.getElementById('mode-select') as HTMLSelectElement;
   modeSelect?.addEventListener('change', (e) => {
     const newMode = (e.target as HTMLSelectElement).value as any;
     state.config.mode = newMode;
+    if (newMode === 'pvp' || newMode === 'sandbox') {
+      if (state.config.player2Name.startsWith('AI Bot') || state.config.player2Name.startsWith('Bot 2')) {
+        state.config.player2Name = 'Player 2';
+      }
+    }
     const aiContainer = document.getElementById('ai-level-container');
     if (aiContainer) {
-      aiContainer.style.display = (newMode === 'pve' || newMode === 'eve') ? 'flex' : 'none';
+      aiContainer.style.display = (newMode === 'pve') ? 'flex' : 'none';
     }
     state = createInitialState(state.config);
     renderAll();
