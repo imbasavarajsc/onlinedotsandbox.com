@@ -1,3 +1,11 @@
+## Always Use
+
+- astro
+- tailwind-4-docs
+- web-design-guidelines
+
+Use these 3 skills for this project.
+- DESIGN.md for this project's design guidelines.
 ## Development
 
 When starting the dev server, use background mode:
@@ -20,3 +28,4 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+/)

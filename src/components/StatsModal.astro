@@ -7,15 +7,30 @@
       <button id="close-stats-btn" class="close-btn">&times;</button>
     </div>
 
+    <!-- Personalized Head-to-Head Matchup Banner -->
+    <div class="matchup-banner">
+      <div class="matchup-player">
+        <span class="player-dot p1-dot"></span>
+        <span id="stat-p1-name-display" class="matchup-name">Player 1</span>
+        <span id="stat-p1-win-count" class="matchup-wins">0 Wins</span>
+      </div>
+      <div class="matchup-vs">VS</div>
+      <div class="matchup-player matchup-right">
+        <span id="stat-p2-win-count" class="matchup-wins">0 Wins</span>
+        <span id="stat-p2-name-display" class="matchup-name">Computer</span>
+        <span class="player-dot p2-dot"></span>
+      </div>
+    </div>
+
     <div class="stats-grid">
       <div class="stat-tile">
         <span id="stat-total-games" class="stat-number">0</span>
-        <span class="stat-label">Matches Played</span>
+        <span class="stat-label">Total Matches</span>
       </div>
 
       <div class="stat-tile">
-        <span id="stat-p1-wins" class="stat-number">0</span>
-        <span class="stat-label">P1 Wins</span>
+        <span id="stat-win-rate" class="stat-number">0%</span>
+        <span class="stat-label">Win Rate</span>
       </div>
 
       <div class="stat-tile">
@@ -30,17 +45,17 @@
     </div>
 
     <div class="ai-stats-section">
-      <h3>AI Conquest Record</h3>
+      <h3>💻 Computer Level Conquests</h3>
       <div class="ai-record-row">
-        <span>⭐ Easy AI Wins</span>
+        <span>⭐ Easy Level Wins</span>
         <span id="stat-easy-wins" class="ai-count">0</span>
       </div>
       <div class="ai-record-row">
-        <span>⭐⭐ Medium AI Wins</span>
+        <span>⭐⭐ Medium Level Wins</span>
         <span id="stat-medium-wins" class="ai-count">0</span>
       </div>
       <div class="ai-record-row">
-        <span>⭐⭐⭐ Hard AI Wins</span>
+        <span>⭐⭐⭐ Hard Level Wins</span>
         <span id="stat-hard-wins" class="ai-count">0</span>
       </div>
     </div>
@@ -52,6 +67,7 @@
     </div>
   </div>
 </div>
+
 
 <style>
   .stats-card {
@@ -136,5 +152,62 @@
   .stats-footer {
     display: flex;
     justify-content: flex-end;
+  }
+
+  /* ── Matchup Banner ─────────────────── */
+  .matchup-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+
+  .matchup-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .matchup-right { justify-content: flex-end; }
+
+  .player-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .p1-dot { background: var(--player1-color); }
+  .p2-dot { background: var(--player2-color); }
+
+  .matchup-name {
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .matchup-wins {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .matchup-vs {
+    font-weight: 900;
+    font-size: 0.8rem;
+    color: #f59e0b;
+    padding: 0 8px;
+    flex-shrink: 0;
   }
 </style>

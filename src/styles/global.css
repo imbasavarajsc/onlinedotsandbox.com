@@ -1,39 +1,39 @@
-/* Global Design Tokens & Styles for Dots and Boxes */
+/* Global Styles & Natural Eye-Comfortable Theme for BoxBattle */
 :root {
-  /* Default Theme: Neon Cyberpunk */
-  --bg-primary: #0b0f19;
-  --bg-surface: #131b2e;
-  --bg-surface-hover: #1c2742;
-  --bg-glass: rgba(19, 27, 46, 0.75);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-glow: rgba(0, 242, 254, 0.3);
+  /* Eye-Comfortable Modern Slate Palette */
+  --bg-primary: #0f172a; /* Deep slate navy - easy on the eyes */
+  --bg-surface: #1e293b;
+  --bg-surface-hover: #334155;
+  --bg-glass: rgba(30, 41, 59, 0.85);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(56, 189, 248, 0.3);
 
-  --text-main: #f1f5f9;
+  --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --text-faint: #64748b;
 
-  --player1-color: #00f2fe;
-  --player1-glow: rgba(0, 242, 254, 0.6);
-  --player1-bg: rgba(0, 242, 254, 0.15);
+  /* Player Colors: Vibrant Sky Blue & Warm Coral Sunset */
+  --player1-color: #38bdf8;
+  --player1-glow: rgba(56, 189, 248, 0.4);
+  --player1-bg: rgba(56, 189, 248, 0.12);
 
-  --player2-color: #ff007f;
-  --player2-glow: rgba(255, 0, 127, 0.6);
-  --player2-bg: rgba(255, 0, 127, 0.15);
+  --player2-color: #fb7185;
+  --player2-glow: rgba(251, 113, 133, 0.4);
+  --player2-bg: rgba(251, 113, 133, 0.12);
 
-  --accent-gold: #fbbf24;
+  --accent-gold: #f59e0b;
   --accent-green: #10b981;
   
-  --dot-color: #384565;
-  --dot-active: #ffffff;
+  --dot-color: #475569;
+  --dot-active: #f8fafc;
   --line-empty: rgba(255, 255, 255, 0.08);
-  --line-hover: rgba(255, 255, 255, 0.35);
+  --line-hover: rgba(56, 189, 248, 0.35);
 
   --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --shadow-neon: 0 0 20px rgba(0, 242, 254, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -43,84 +43,6 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Theme: Geist Minimalist */
-[data-theme="geist"] {
-  --bg-primary: #09090b;
-  --bg-surface: #18181b;
-  --bg-surface-hover: #27272a;
-  --bg-glass: rgba(24, 24, 27, 0.85);
-  --border-color: #27272a;
-  --border-glow: rgba(99, 102, 241, 0.4);
-
-  --text-main: #fafafa;
-  --text-muted: #a1a1aa;
-  --text-faint: #71717a;
-
-  --player1-color: #6366f1;
-  --player1-glow: rgba(99, 102, 241, 0.6);
-  --player1-bg: rgba(99, 102, 241, 0.18);
-
-  --player2-color: #f59e0b;
-  --player2-glow: rgba(245, 158, 11, 0.6);
-  --player2-bg: rgba(245, 158, 11, 0.18);
-
-  --dot-color: #3f3f46;
-  --line-empty: rgba(255, 255, 255, 0.1);
-  --line-hover: rgba(255, 255, 255, 0.4);
-}
-
-/* Theme: Retro Arcade */
-[data-theme="arcade"] {
-  --bg-primary: #18092c;
-  --bg-surface: #2b1055;
-  --bg-surface-hover: #3d1778;
-  --bg-glass: rgba(43, 16, 85, 0.85);
-  --border-color: rgba(255, 215, 0, 0.2);
-  --border-glow: rgba(255, 215, 0, 0.5);
-
-  --text-main: #ffffff;
-  --text-muted: #d8b4fe;
-  --text-faint: #a855f7;
-
-  --player1-color: #38ef7d;
-  --player1-glow: rgba(56, 239, 125, 0.6);
-  --player1-bg: rgba(56, 239, 125, 0.2);
-
-  --player2-color: #ff0055;
-  --player2-glow: rgba(255, 0, 85, 0.6);
-  --player2-bg: rgba(255, 0, 85, 0.2);
-
-  --dot-color: #5b21b6;
-  --line-empty: rgba(255, 255, 255, 0.12);
-  --line-hover: rgba(255, 215, 0, 0.6);
-}
-
-/* Theme: Emerald Luxury */
-[data-theme="emerald"] {
-  --bg-primary: #062319;
-  --bg-surface: #0b3829;
-  --bg-surface-hover: #124d39;
-  --bg-glass: rgba(11, 56, 41, 0.85);
-  --border-color: rgba(52, 211, 153, 0.2);
-  --border-glow: rgba(52, 211, 153, 0.4);
-
-  --text-main: #ecfdf5;
-  --text-muted: #a7f3d0;
-  --text-faint: #6ee7b7;
-
-  --player1-color: #34d399;
-  --player1-glow: rgba(52, 211, 153, 0.6);
-  --player1-bg: rgba(52, 211, 153, 0.18);
-
-  --player2-color: #fbbf24;
-  --player2-glow: rgba(251, 191, 36, 0.6);
-  --player2-bg: rgba(251, 191, 36, 0.18);
-
-  --dot-color: #155e47;
-  --line-empty: rgba(255, 255, 255, 0.1);
-  --line-hover: rgba(52, 211, 153, 0.4);
 }
 
 *, *::before, *::after {
@@ -145,8 +67,8 @@ body {
   align-items: center;
   justify-content: flex-start;
   background-image: 
-    radial-gradient(circle at 15% 15%, var(--player1-bg) 0%, transparent 40%),
-    radial-gradient(circle at 85% 85%, var(--player2-bg) 0%, transparent 40%);
+    radial-gradient(circle at 15% 15%, var(--player1-bg) 0%, transparent 45%),
+    radial-gradient(circle at 85% 85%, var(--player2-bg) 0%, transparent 45%);
   background-attachment: fixed;
 }
 
@@ -198,28 +120,28 @@ button {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--player1-color), #00b4d8);
-  color: #000000;
+  background: linear-gradient(135deg, var(--player1-color), #0284c7);
+  color: #ffffff;
   font-weight: 700;
   border: none;
-  box-shadow: var(--player1-glow);
+  box-shadow: 0 4px 14px var(--player1-glow);
 }
 
 .btn-primary:hover {
   filter: brightness(1.1);
-  box-shadow: 0 0 20px var(--player1-glow);
+  box-shadow: 0 6px 18px var(--player1-glow);
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, var(--accent-gold), #f59e0b);
-  color: #000000;
+  background: linear-gradient(135deg, var(--accent-gold), #d97706);
+  color: #ffffff;
   font-weight: 700;
   border: none;
 }
 
 .btn-icon {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border-radius: var(--radius-md);
 }
@@ -237,18 +159,6 @@ button {
   box-shadow: none !important;
 }
 
-/* Tooltip / Badge */
-.badge {
-  padding: 4px 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-muted);
-}
-
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -261,28 +171,12 @@ button {
   border-radius: 4px;
 }
 
-/* Animations */
-@keyframes popIn {
-  0% { transform: scale(0.6); opacity: 0; }
-  70% { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 10px var(--player1-glow); }
-  50% { box-shadow: 0 0 25px var(--player1-glow); }
-}
-
-.pop-in {
-  animation: popIn var(--transition-bounce) forwards;
-}
-
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,8 +202,8 @@ button {
   overflow-y: auto;
   padding: 28px;
   box-shadow: var(--shadow-lg);
-  transform: scale(0.9);
-  transition: transform var(--transition-bounce);
+  transform: scale(0.95);
+  transition: transform var(--transition-normal);
 }
 
 .modal-overlay.active .modal-content {

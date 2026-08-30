@@ -1,4 +1,4 @@
-import { createInitialState, makeMove, undoMove, findLine, getAllAvailableLines } from './gameEngine';
+import { createInitialState, makeMove, undoMove, getAllAvailableLines } from './gameEngine';
 import { getAiMove } from './aiEngine';
 import { audioEngine } from './audioEngine';
 import { loadStats, recordGameResult, resetStats } from './statsEngine';
@@ -8,7 +8,15 @@ import type { GameConfig, GameState, Line, PlayerId } from './types';
 let state: GameState;
 let timerInterval: number | null = null;
 let aiTimeoutId: number | null = null;
-let currentHintLineId: string | null = null;
+
+// ─── Helper ─────────────────────────────────────────────────────────────────
+
+function abbr(name: string, fallback: string): string {
+  const t = (name || '').trim();
+  return t.length > 0 ? t.substring(0, 3).toUpperCase() : fallback;
+}
+
+// ─── Init ────────────────────────────────────────────────────────────────────
 
 export function initApp() {
   const defaultConfig: GameConfig = {
@@ -16,8 +24,8 @@ export function initApp() {
     mode: 'pve',
     aiDifficulty: 'medium',
     player1Name: 'Player 1',
-    player2Name: 'AI Bot (Medium)',
-    theme: 'cyberpunk',
+    player2Name: 'Computer',
+    theme: 'default',
     soundEnabled: true,
     timerEnabled: true,
     timerDuration: 15,
@@ -27,8 +35,12 @@ export function initApp() {
 
   setupEventListeners();
   applyTheme(defaultConfig.theme);
-  renderAll();
+
+  // Show name-entry modal before the first game begins
+  openPlayerNamesModal('pve');
 }
+
+// ─── Render ──────────────────────────────────────────────────────────────────
 
 function renderAll() {
   renderBoard();
@@ -36,35 +48,31 @@ function renderAll() {
   renderControls();
   checkTurnTimer();
 
-  // Trigger AI if it's AI turn
   if (!state.isGameOver) {
     if (state.config.mode === 'pve' && state.currentPlayer === 2) {
-      scheduleAiMove();
-    } else if (state.config.mode === 'eve') {
       scheduleAiMove();
     }
   }
 }
 
 function renderBoard() {
-  const svg = document.getElementById('game-svg') as unknown as SVGSVGElement;
   const boxesGroup = document.getElementById('boxes-group');
   const linesGroup = document.getElementById('lines-group');
   const dotsGroup = document.getElementById('dots-group');
 
-  if (!svg || !boxesGroup || !linesGroup || !dotsGroup) return;
+  if (!boxesGroup || !linesGroup || !dotsGroup) return;
 
   boxesGroup.innerHTML = '';
   linesGroup.innerHTML = '';
   dotsGroup.innerHTML = '';
 
-  const N = state.config.gridSize; // Number of dots
+  const N = state.config.gridSize;
   const boxCount = N - 1;
   const padding = 50;
   const boardWidth = 600 - padding * 2;
   const spacing = boardWidth / (N - 1);
 
-  // 1. Render Boxes
+  // Boxes
   for (let r = 0; r < boxCount; r++) {
     for (let c = 0; c < boxCount; c++) {
       const box = state.boxes[r][c];
@@ -78,7 +86,6 @@ function renderBoard() {
       rect.setAttribute('height', `${spacing - 12}`);
       rect.setAttribute('rx', '8');
       rect.setAttribute('class', `board-box ${box.owner === 1 ? 'p1-box' : box.owner === 2 ? 'p2-box' : ''}`);
-
       boxesGroup.appendChild(rect);
 
       if (box.owner) {
@@ -86,27 +93,26 @@ function renderBoard() {
         text.setAttribute('x', `${x + spacing / 2}`);
         text.setAttribute('y', `${y + spacing / 2}`);
         text.setAttribute('class', `box-label ${box.owner === 1 ? 'p1-text' : 'p2-text'}`);
+
         if (box.owner === 1) {
-          text.textContent = 'P1';
+          text.textContent = abbr(state.config.player1Name, 'P1');
         } else {
-          text.textContent = state.config.mode === 'pve' ? 'AI' : 'P2';
+          text.textContent = state.config.mode === 'pve'
+            ? 'CMP'
+            : abbr(state.config.player2Name, 'P2');
         }
         boxesGroup.appendChild(text);
       }
     }
   }
 
-  // 2. Render Lines
   // Horizontal lines
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < boxCount; c++) {
       const line = state.horizontalLines[r][c];
       const x1 = padding + c * spacing;
       const y1 = padding + r * spacing;
-      const x2 = x1 + spacing;
-      const y2 = y1;
-
-      createSvgLine(linesGroup, line, x1, y1, x2, y2);
+      createSvgLine(linesGroup, line, x1, y1, x1 + spacing, y1);
     }
   }
 
@@ -116,41 +122,26 @@ function renderBoard() {
       const line = state.verticalLines[r][c];
       const x1 = padding + c * spacing;
       const y1 = padding + r * spacing;
-      const x2 = x1;
-      const y2 = y1 + spacing;
-
-      createSvgLine(linesGroup, line, x1, y1, x2, y2);
+      createSvgLine(linesGroup, line, x1, y1, x1, y1 + spacing);
     }
   }
 
-  // 3. Render Dots
+  // Dots
   for (let r = 0; r < N; r++) {
     for (let c = 0; c < N; c++) {
-      const cx = padding + c * spacing;
-      const cy = padding + r * spacing;
-
       const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      circle.setAttribute('cx', `${cx}`);
-      circle.setAttribute('cy', `${cy}`);
+      circle.setAttribute('cx', `${padding + c * spacing}`);
+      circle.setAttribute('cy', `${padding + r * spacing}`);
       circle.setAttribute('r', N > 5 ? '7' : '9');
       circle.setAttribute('class', 'board-dot active');
-
       dotsGroup.appendChild(circle);
     }
   }
 }
 
-function createSvgLine(
-  group: HTMLElement,
-  line: Line,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number
-) {
+function createSvgLine(group: HTMLElement, line: Line, x1: number, y1: number, x2: number, y2: number) {
   const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
-  // Visible Line
   const visLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
   visLine.setAttribute('x1', `${x1}`);
   visLine.setAttribute('y1', `${y1}`);
@@ -158,20 +149,12 @@ function createSvgLine(
   visLine.setAttribute('y2', `${y2}`);
 
   let classes = 'board-line';
-  if (!line.owner) {
-    classes += ' empty';
-  } else if (line.owner === 1) {
-    classes += ' claimed-p1';
-  } else {
-    classes += ' claimed-p2';
-  }
-
-  if (line.isLastMove) classes += ' last-move';
-  if (line.id === currentHintLineId) classes += ' hint';
-
+  if (!line.owner)       classes += ' empty';
+  else if (line.owner === 1) classes += ' claimed-p1';
+  else                   classes += ' claimed-p2';
+  if (line.isLastMove)   classes += ' last-move';
   visLine.setAttribute('class', classes);
 
-  // Wide Hitbox Line for mobile & smooth hover
   const hitLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
   hitLine.setAttribute('x1', `${x1}`);
   hitLine.setAttribute('y1', `${y1}`);
@@ -182,15 +165,9 @@ function createSvgLine(
   hitLine.setAttribute('cursor', line.owner ? 'default' : 'pointer');
 
   if (!line.owner && !state.isGameOver) {
-    hitLine.addEventListener('mouseenter', () => {
-      visLine.classList.add('hovered');
-    });
-    hitLine.addEventListener('mouseleave', () => {
-      visLine.classList.remove('hovered');
-    });
-    hitLine.addEventListener('click', () => {
-      handleUserMove(line.id);
-    });
+    hitLine.addEventListener('mouseenter', () => visLine.classList.add('hovered'));
+    hitLine.addEventListener('mouseleave', () => visLine.classList.remove('hovered'));
+    hitLine.addEventListener('click', () => handleUserMove(line.id));
   }
 
   g.appendChild(visLine);
@@ -200,21 +177,14 @@ function createSvgLine(
 
 function handleUserMove(lineId: string) {
   if (state.isGameOver) return;
-
-  // Prevent human clicking during AI turn in PVE / EVE mode
   if (state.config.mode === 'pve' && state.currentPlayer === 2) return;
-  if (state.config.mode === 'eve') return;
-
   executeMove(lineId);
 }
 
 function executeMove(lineId: string) {
-  currentHintLineId = null;
-  const prevPlayer = state.currentPlayer;
   const { state: newState, boxesScored } = makeMove(state, lineId);
   state = newState;
 
-  // Sound effects
   if (boxesScored > 0) {
     audioEngine.playBoxPop(state.streakCount);
   } else {
@@ -230,22 +200,14 @@ function executeMove(lineId: string) {
 
 function scheduleAiMove() {
   if (aiTimeoutId) clearTimeout(aiTimeoutId);
-
-  const delay = state.config.mode === 'eve' ? 500 : 700;
   aiTimeoutId = window.setTimeout(() => {
     if (state.isGameOver) return;
-
-    let difficulty = state.config.aiDifficulty;
-    if (state.config.mode === 'eve' && state.currentPlayer === 1) {
-      difficulty = 'hard'; // EVE player 1 is hard bot vs player 2 difficulty bot
-    }
-
-    const aiMoveLine = getAiMove(state, difficulty);
-    if (aiMoveLine) {
-      executeMove(aiMoveLine.id);
-    }
-  }, delay);
+    const aiMoveLine = getAiMove(state, state.config.aiDifficulty);
+    if (aiMoveLine) executeMove(aiMoveLine.id);
+  }, 650);
 }
+
+// ─── Scoreboard ──────────────────────────────────────────────────────────────
 
 function renderScoreboard() {
   const p1Card = document.getElementById('player1-card');
@@ -261,13 +223,8 @@ function renderScoreboard() {
   const streakCount = document.getElementById('streak-count');
 
   if (p1Card && p2Card) {
-    if (state.currentPlayer === 1) {
-      p1Card.classList.add('active-turn');
-      p2Card.classList.remove('active-turn');
-    } else {
-      p2Card.classList.add('active-turn');
-      p1Card.classList.remove('active-turn');
-    }
+    p1Card.classList.toggle('active-turn', state.currentPlayer === 1);
+    p2Card.classList.toggle('active-turn', state.currentPlayer === 2);
   }
 
   if (p1Score) p1Score.textContent = `${state.scores[1]}`;
@@ -276,38 +233,38 @@ function renderScoreboard() {
   if (p1Name && document.activeElement !== p1Name) {
     p1Name.textContent = state.config.player1Name;
   }
-  
+
+  const isHuman2 = state.config.mode === 'pvp' || state.config.mode === 'sandbox';
   if (p2Name) {
-    const isHuman2 = state.config.mode === 'pvp' || state.config.mode === 'sandbox';
     p2Name.setAttribute('contenteditable', isHuman2 ? 'true' : 'false');
     if (document.activeElement !== p2Name) {
-      if (isHuman2) {
-        p2Name.textContent = state.config.player2Name;
-      } else {
-        p2Name.textContent = `AI Bot (${state.config.aiDifficulty.toUpperCase()})`;
-      }
+      p2Name.textContent = isHuman2 ? state.config.player2Name : 'Computer';
     }
   }
 
-  if (p1Avatar) p1Avatar.textContent = 'P1';
+  if (p1Avatar) p1Avatar.textContent = abbr(state.config.player1Name, 'P1');
   if (p2Avatar) {
-    if (state.config.mode === 'pve') {
-      p2Avatar.textContent = 'AI';
-    } else {
-      p2Avatar.textContent = 'P2';
-    }
+    p2Avatar.textContent = state.config.mode === 'pve'
+      ? 'CMP'
+      : abbr(state.config.player2Name, 'P2');
   }
 
   if (statusMsg) {
     if (state.isGameOver) {
       if (state.winner === 1) statusMsg.textContent = `${state.config.player1Name} Wins! 🎉`;
-      else if (state.winner === 2) statusMsg.textContent = `${p2Name?.textContent || 'Player 2'} Wins! 🎉`;
-      else statusMsg.textContent = "It's a Tie! 🤝";
+      else if (state.winner === 2) {
+        const p2Label = isHuman2 ? state.config.player2Name : 'Computer';
+        statusMsg.textContent = `${p2Label} Wins! 🎉`;
+      } else {
+        statusMsg.textContent = "It's a Tie! 🤝";
+      }
     } else {
       if (state.config.mode === 'pve' && state.currentPlayer === 2) {
-        statusMsg.textContent = 'AI Bot is thinking... 🤖';
+        statusMsg.textContent = 'Computer is thinking... 🧠';
       } else {
-        const currName = state.currentPlayer === 1 ? state.config.player1Name : (p2Name?.textContent || 'Player 2');
+        const currName = state.currentPlayer === 1
+          ? state.config.player1Name
+          : (isHuman2 ? state.config.player2Name : 'Computer');
         statusMsg.textContent = `${currName}'s Turn`;
       }
     }
@@ -326,12 +283,11 @@ function renderScoreboard() {
 function renderControls() {
   const undoBtn = document.getElementById('undo-btn') as HTMLButtonElement;
   const redoBtn = document.getElementById('redo-btn') as HTMLButtonElement;
-  const hintBtn = document.getElementById('hint-btn') as HTMLButtonElement;
-
   if (undoBtn) undoBtn.disabled = state.history.length === 0 || state.isGameOver;
   if (redoBtn) redoBtn.disabled = state.redoStack.length === 0 || state.isGameOver;
-  if (hintBtn) hintBtn.disabled = state.isGameOver;
 }
+
+// ─── Timer ───────────────────────────────────────────────────────────────────
 
 function checkTurnTimer() {
   const timerBadge = document.getElementById('turn-timer');
@@ -350,28 +306,26 @@ function checkTurnTimer() {
   timerInterval = window.setInterval(() => {
     state.turnTimer--;
     if (timerText) timerText.textContent = `${state.turnTimer}s`;
-
     if (state.turnTimer <= 0) {
       clearInterval(timerInterval!);
-      // Force random move on timer expiration
       const avail = getAllAvailableLines(state);
       if (avail.length > 0) {
-        const randomLine = avail[Math.floor(Math.random() * avail.length)];
-        executeMove(randomLine.id);
+        executeMove(avail[Math.floor(Math.random() * avail.length)].id);
       }
     }
   }, 1000);
 }
 
+// ─── Game Over ───────────────────────────────────────────────────────────────
+
 function handleGameOver() {
   if (timerInterval) clearInterval(timerInterval);
 
-  const isVsAi = state.config.mode === 'pve';
   recordGameResult(
     state.winner as PlayerId | 'tie',
     state.scores[1],
     state.scores[2],
-    isVsAi,
+    state.config.mode === 'pve',
     state.config.aiDifficulty,
     state.streakCount
   );
@@ -388,37 +342,77 @@ function showVictoryModal() {
   const modal = document.getElementById('victory-modal');
   const title = document.getElementById('winner-title');
   const subtitle = document.getElementById('winner-subtitle');
-  const p1Name = document.getElementById('modal-p1-name');
-  const p2Name = document.getElementById('modal-p2-name');
-  const p1Score = document.getElementById('modal-p1-score');
-  const p2Score = document.getElementById('modal-p2-score');
+  const p1NameEl = document.getElementById('modal-p1-name');
+  const p2NameEl = document.getElementById('modal-p2-name');
+  const p1ScoreEl = document.getElementById('modal-p1-score');
+  const p2ScoreEl = document.getElementById('modal-p2-score');
 
   if (!modal) return;
 
-  if (p1Name) p1Name.textContent = state.config.player1Name;
-  if (p2Name) p2Name.textContent = state.config.mode === 'pve' ? 'AI Bot' : 'Player 2';
-  if (p1Score) p1Score.textContent = `${state.scores[1]}`;
-  if (p2Score) p2Score.textContent = `${state.scores[2]}`;
+  const p2Label = state.config.mode === 'pve' ? 'Computer' : state.config.player2Name;
+  if (p1NameEl) p1NameEl.textContent = state.config.player1Name;
+  if (p2NameEl) p2NameEl.textContent = p2Label;
+  if (p1ScoreEl) p1ScoreEl.textContent = `${state.scores[1]}`;
+  if (p2ScoreEl) p2ScoreEl.textContent = `${state.scores[2]}`;
 
   if (title) {
     if (state.winner === 1) title.textContent = `${state.config.player1Name.toUpperCase()} VICTORY! 🎉`;
-    else if (state.winner === 2) title.textContent = `${p2Name?.textContent.toUpperCase()} VICTORY! 🎉`;
+    else if (state.winner === 2) title.textContent = `${p2Label.toUpperCase()} VICTORY! 🎉`;
     else title.textContent = 'DRAW MATCH! 🤝';
   }
-
-  if (subtitle) {
-    subtitle.textContent = `Final Score: ${state.scores[1]} vs ${state.scores[2]}`;
-  }
+  if (subtitle) subtitle.textContent = `Final Score: ${state.scores[1]} vs ${state.scores[2]}`;
 
   modal.classList.add('active');
 }
 
+// ─── Player Names Modal ───────────────────────────────────────────────────────
+
+function openPlayerNamesModal(mode: string) {
+  const namesModal = document.getElementById('player-names-modal');
+  const titleEl = document.getElementById('names-modal-title');
+  const descEl = document.getElementById('names-modal-desc');
+  const p1Label = namesModal?.querySelector('.p1-input-group label');
+  const p2Group = document.getElementById('p2-name-group');
+  const p1Input = document.getElementById('p1-name-input') as HTMLInputElement;
+  const p2Input = document.getElementById('p2-name-input') as HTMLInputElement;
+  const startBtn = document.getElementById('start-2p-btn');
+
+  // Stop any running timer while modal is open
+  if (timerInterval) clearInterval(timerInterval);
+
+  if (mode === 'pvp') {
+    if (titleEl) titleEl.textContent = '⚔️ 2 Player Mode';
+    if (descEl) descEl.textContent = 'Enter names for both players to start the match.';
+    if (p1Label) p1Label.innerHTML = '<span class="player-dot p1-dot"></span> Player 1 Name';
+    if (p2Group) p2Group.style.display = 'flex';
+    if (startBtn) startBtn.textContent = 'Start Battle 🚀';
+    if (p1Input) p1Input.value = state.config.player1Name !== 'Player 1' ? state.config.player1Name : 'Player 1';
+    if (p2Input) p2Input.value = (state.config.player2Name !== 'Computer' && state.config.player2Name !== 'Player 2')
+      ? state.config.player2Name : 'Player 2';
+  } else {
+    if (titleEl) titleEl.textContent = '🎮 Welcome to BoxBattle';
+    if (descEl) descEl.textContent = mode === 'sandbox'
+      ? 'Enter your name to start the self-practice session.'
+      : 'Enter your name to play against the Computer.';
+    if (p1Label) p1Label.innerHTML = '<span class="player-dot p1-dot"></span> Your Name';
+    if (p2Group) p2Group.style.display = 'none';
+    if (startBtn) startBtn.textContent = "Let's Play 🚀";
+    if (p1Input) p1Input.value = state.config.player1Name !== 'Player 1' ? state.config.player1Name : '';
+  }
+
+  namesModal?.classList.add('active');
+
+  // Focus the P1 input after a small delay
+  setTimeout(() => p1Input?.focus(), 100);
+}
+
+// ─── Event Listeners ─────────────────────────────────────────────────────────
+
 function setupEventListeners() {
-  // New Game Button
+  // New Game Button — re-ask for name
   document.getElementById('new-game-btn')?.addEventListener('click', () => {
     audioEngine.playButtonClick();
-    state = createInitialState(state.config);
-    renderAll();
+    openPlayerNamesModal(state.config.mode);
   });
 
   // Undo Button
@@ -427,9 +421,9 @@ function setupEventListeners() {
     const updated = undoMove(state);
     if (updated) {
       state = updated;
-      // In PVE mode, undo human move also undoes AI response move!
       if (state.config.mode === 'pve' && state.currentPlayer === 2 && state.history.length > 0) {
-        undoMove(state);
+        const undoAgain = undoMove(state);
+        if (undoAgain) state = undoAgain;
       }
       renderAll();
     }
@@ -439,30 +433,11 @@ function setupEventListeners() {
   document.getElementById('redo-btn')?.addEventListener('click', () => {
     audioEngine.playButtonClick();
     if (state.redoStack.length > 0) {
-      const nextMove = state.redoStack[state.redoStack.length - 1];
-      executeMove(nextMove.lineId);
+      executeMove(state.redoStack[state.redoStack.length - 1].lineId);
     }
   });
 
-  // Hint Button
-  document.getElementById('hint-btn')?.addEventListener('click', () => {
-    audioEngine.playButtonClick();
-    const recommended = getAiMove(state, 'hard');
-    if (recommended) {
-      currentHintLineId = recommended.id;
-      renderBoard();
-    }
-  });
-
-  // Theme Selector
-  const themeSelect = document.getElementById('theme-select') as HTMLSelectElement;
-  themeSelect?.addEventListener('change', (e) => {
-    const newTheme = (e.target as HTMLSelectElement).value as any;
-    state.config.theme = newTheme;
-    applyTheme(newTheme);
-  });
-
-  // Editable Player Name Listeners
+  // Editable Player Name (scoreboard inline edit)
   const p1NameElem = document.getElementById('p1-name');
   p1NameElem?.addEventListener('input', () => {
     state.config.player1Name = p1NameElem.textContent?.trim() || 'Player 1';
@@ -480,24 +455,24 @@ function setupEventListeners() {
   modeSelect?.addEventListener('change', (e) => {
     const newMode = (e.target as HTMLSelectElement).value as any;
     state.config.mode = newMode;
-    if (newMode === 'pvp' || newMode === 'sandbox') {
-      if (state.config.player2Name.startsWith('AI Bot') || state.config.player2Name.startsWith('Bot 2')) {
-        state.config.player2Name = 'Player 2';
-      }
+
+    if (newMode === 'pve') {
+      state.config.player2Name = 'Computer';
+    } else if (newMode !== 'pvp' && state.config.player2Name === 'Computer') {
+      state.config.player2Name = 'Player 2';
     }
+
     const aiContainer = document.getElementById('ai-level-container');
-    if (aiContainer) {
-      aiContainer.style.display = (newMode === 'pve') ? 'flex' : 'none';
-    }
-    state = createInitialState(state.config);
-    renderAll();
+    if (aiContainer) aiContainer.style.display = newMode === 'pve' ? 'flex' : 'none';
+
+    // Always ask for names when switching mode
+    openPlayerNamesModal(newMode);
   });
 
   // Grid Size Selector
   const sizeSelect = document.getElementById('grid-size-select') as HTMLSelectElement;
   sizeSelect?.addEventListener('change', (e) => {
-    const newSize = parseInt((e.target as HTMLSelectElement).value, 10);
-    state.config.gridSize = newSize;
+    state.config.gridSize = parseInt((e.target as HTMLSelectElement).value, 10);
     state = createInitialState(state.config);
     renderAll();
   });
@@ -505,9 +480,7 @@ function setupEventListeners() {
   // AI Level Selector
   const aiSelect = document.getElementById('ai-level-select') as HTMLSelectElement;
   aiSelect?.addEventListener('change', (e) => {
-    const diff = (e.target as HTMLSelectElement).value as any;
-    state.config.aiDifficulty = diff;
-    renderScoreboard();
+    state.config.aiDifficulty = (e.target as HTMLSelectElement).value as any;
   });
 
   // Timer Selector
@@ -520,17 +493,15 @@ function setupEventListeners() {
     checkTurnTimer();
   });
 
-  // Sound Toggle Button
+  // Sound Toggle
   const soundBtn = document.getElementById('sound-toggle-btn');
   soundBtn?.addEventListener('click', () => {
     const isMuted = !audioEngine.getMuted();
     audioEngine.setMuted(isMuted);
-
     document.getElementById('sound-icon-on')?.classList.toggle('hidden', isMuted);
     document.getElementById('sound-icon-off')?.classList.toggle('hidden', !isMuted);
   });
 
-  // Modals Toggle Listeners
   setupModalListeners();
 }
 
@@ -539,6 +510,30 @@ function applyTheme(theme: string) {
 }
 
 function setupModalListeners() {
+  const namesModal = document.getElementById('player-names-modal');
+  const p1Input = document.getElementById('p1-name-input') as HTMLInputElement;
+  const p2Input = document.getElementById('p2-name-input') as HTMLInputElement;
+
+  // "Let's Play / Start Battle" button
+  document.getElementById('start-2p-btn')?.addEventListener('click', () => {
+    const name1 = p1Input?.value.trim() || 'Player 1';
+    const name2 = state.config.mode === 'pvp' ? (p2Input?.value.trim() || 'Player 2') : 'Computer';
+    state.config.player1Name = name1;
+    state.config.player2Name = name2;
+    namesModal?.classList.remove('active');
+    state = createInitialState(state.config);
+    renderAll();
+  });
+
+  // Allow pressing Enter to submit
+  [p1Input, p2Input].forEach(inp => {
+    inp?.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter') {
+        document.getElementById('start-2p-btn')?.click();
+      }
+    });
+  });
+
   // Tutorial Modal
   const tutModal = document.getElementById('tutorial-modal');
   document.getElementById('open-tutorial-btn')?.addEventListener('click', () => tutModal?.classList.add('active'));
@@ -552,7 +547,6 @@ function setupModalListeners() {
     statsModal?.classList.add('active');
   });
   document.getElementById('close-stats-btn')?.addEventListener('click', () => statsModal?.classList.remove('active'));
-
   document.getElementById('reset-stats-btn')?.addEventListener('click', () => {
     resetStats();
     updateStatsDisplay();
@@ -563,27 +557,40 @@ function setupModalListeners() {
   document.getElementById('close-victory-btn')?.addEventListener('click', () => vicModal?.classList.remove('active'));
   document.getElementById('rematch-btn')?.addEventListener('click', () => {
     vicModal?.classList.remove('active');
-    state = createInitialState(state.config);
-    renderAll();
+    openPlayerNamesModal(state.config.mode);
   });
 }
 
+// ─── Stats Display ───────────────────────────────────────────────────────────
+
 function updateStatsDisplay() {
   const stats = loadStats();
+
+  // Matchup banner
+  const p1NameDisplay = document.getElementById('stat-p1-name-display');
+  const p2NameDisplay = document.getElementById('stat-p2-name-display');
+  const p1WinCount = document.getElementById('stat-p1-win-count');
+  const p2WinCount = document.getElementById('stat-p2-win-count');
+  if (p1NameDisplay) p1NameDisplay.textContent = state.config.player1Name;
+  if (p2NameDisplay) p2NameDisplay.textContent = state.config.mode === 'pve' ? 'Computer' : state.config.player2Name;
+  if (p1WinCount) p1WinCount.textContent = `${stats.p1Wins} Wins`;
+  if (p2WinCount) p2WinCount.textContent = `${stats.p2Wins} Wins`;
+
+  // Grid stats
   const total = document.getElementById('stat-total-games');
-  const wins = document.getElementById('stat-p1-wins');
+  const winRate = document.getElementById('stat-win-rate');
   const boxes = document.getElementById('stat-total-boxes');
   const streak = document.getElementById('stat-streak');
+  if (total) total.textContent = `${stats.gamesPlayed}`;
+  if (boxes) boxes.textContent = `${stats.totalBoxesCompleted}`;
+  if (streak) streak.textContent = `${stats.longestStreak}`;
+  const pct = stats.gamesPlayed > 0 ? Math.round((stats.p1Wins / stats.gamesPlayed) * 100) : 0;
+  if (winRate) winRate.textContent = `${pct}%`;
 
+  // AI level conquests
   const easy = document.getElementById('stat-easy-wins');
   const medium = document.getElementById('stat-medium-wins');
   const hard = document.getElementById('stat-hard-wins');
-
-  if (total) total.textContent = `${stats.gamesPlayed}`;
-  if (wins) wins.textContent = `${stats.p1Wins}`;
-  if (boxes) boxes.textContent = `${stats.totalBoxesCompleted}`;
-  if (streak) streak.textContent = `${stats.longestStreak}`;
-
   if (easy) easy.textContent = `${stats.easyAiWins}`;
   if (medium) medium.textContent = `${stats.mediumAiWins}`;
   if (hard) hard.textContent = `${stats.hardAiWins}`;

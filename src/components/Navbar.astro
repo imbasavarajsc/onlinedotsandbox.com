@@ -4,7 +4,7 @@
   <div class="nav-container">
     <div class="brand">
       <div class="brand-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="6" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
           <circle cx="18" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
           <circle cx="6" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
@@ -23,20 +23,9 @@
       <div class="select-wrapper">
         <label for="mode-select" class="sr-only">Game Mode</label>
         <select id="mode-select" class="btn select-input">
-          <option value="pve">vs AI Bot</option>
-          <option value="pvp">2 Player (Local)</option>
+          <option value="pve">vs Computer</option>
+          <option value="pvp">2 Player</option>
           <option value="sandbox">Self Practice</option>
-        </select>
-      </div>
-
-      <!-- Theme Switcher Dropdown -->
-      <div class="select-wrapper">
-        <label for="theme-select" class="sr-only">Theme</label>
-        <select id="theme-select" class="btn select-input">
-          <option value="cyberpunk">⚡ Cyberpunk</option>
-          <option value="geist">✦ Geist Clean</option>
-          <option value="arcade">🕹️ Retro Arcade</option>
-          <option value="emerald">🌿 Emerald</option>
         </select>
       </div>
 
@@ -78,7 +67,7 @@
     width: 100%;
     max-width: 1100px;
     margin: 16px 16px 0 16px;
-    padding: 14px 24px;
+    padding: 16px 28px;
     z-index: 10;
   }
 
@@ -93,15 +82,15 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
 
   .brand-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -113,19 +102,17 @@
   }
 
   .game-title {
-    font-size: 1.9rem;
+    font-size: 2.6rem;
     font-weight: 900;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, var(--text-main) 40%, var(--player1-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+    color: var(--text-main);
     line-height: 1;
   }
 
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
@@ -135,11 +122,13 @@
 
   .select-input {
     appearance: none;
-    padding-right: 30px;
+    padding-right: 32px;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
-    background-position: right 10px center;
+    background-position: right 12px center;
   }
 
   .hidden {
@@ -160,21 +149,21 @@
   @media (max-width: 640px) {
     .navbar {
       margin: 8px;
-      padding: 10px 14px;
+      padding: 12px 16px;
     }
     .game-title {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
     }
     .brand-icon {
-      width: 38px;
-      height: 38px;
+      width: 42px;
+      height: 42px;
     }
     .nav-actions {
       gap: 6px;
     }
     .select-input {
-      font-size: 0.8rem;
-      padding: 6px 24px 6px 8px;
+      font-size: 0.85rem;
+      padding: 8px 26px 8px 10px;
     }
   }
 </style>
