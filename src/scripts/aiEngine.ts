@@ -1,47 +1,169 @@
 import type { GameState, Line, Box } from './types';
-import { getAllAvailableLines, findLine, countSides } from './gameEngine';
+import { getAllAvailableLines, findLine, countSides, makeMove } from './gameEngine';
+
+// ─── Deep Clone ───────────────────────────────────────────────────────────────
+// makeMove mutates state in-place, so we must clone before every simulation step.
+
+function cloneState(state: GameState): GameState {
+  return {
+    config: state.config, // config is read-only — safe to share reference
+    currentPlayer: state.currentPlayer,
+    horizontalLines: state.horizontalLines.map(row =>
+      row.map(l => ({ ...l }))
+    ),
+    verticalLines: state.verticalLines.map(row =>
+      row.map(l => ({ ...l }))
+    ),
+    boxes: state.boxes.map(row =>
+      row.map(b => ({ ...b }))
+    ),
+    scores: { 1: state.scores[1], 2: state.scores[2] },
+    history: [...state.history],
+    redoStack: [...state.redoStack],
+    isGameOver: state.isGameOver,
+    winner: state.winner,
+    turnTimer: state.turnTimer,
+    streakCount: state.streakCount,
+  };
+}
+
+/** Apply a move on a CLONE of the state — never touches the real state. */
+function simulateMove(state: GameState, lineId: string) {
+  const clone = cloneState(state);
+  return makeMove(clone, lineId);
+}
+
+// ─── Public Entry ────────────────────────────────────────────────────────────
 
 export function getAiMove(state: GameState, difficulty: 'easy' | 'medium' | 'hard'): Line | null {
   const availableLines = getAllAvailableLines(state);
   if (availableLines.length === 0) return null;
 
-  // 1. Check for immediate box completion moves (3 sides -> 4th side)
-  const completingLines = getCompletingLines(state, availableLines);
-  if (completingLines.length > 0) {
-    // Always complete a box if available!
-    if (difficulty === 'easy') {
-      return completingLines[Math.floor(Math.random() * completingLines.length)];
-    }
-    // For medium & hard, complete boxes
-    return completingLines[0];
-  }
-
-  // 2. Easy AI: pick random available line
+  // ── Easy: mostly random, only occasionally completes boxes ───────────────
   if (difficulty === 'easy') {
+    const completing = getCompletingLines(state, availableLines);
+    if (completing.length > 0 && Math.random() < 0.6) {
+      return completing[Math.floor(Math.random() * completing.length)];
+    }
     return availableLines[Math.floor(Math.random() * availableLines.length)];
   }
 
-  // 3. Find "Safe Moves" (moves that leave adjacent boxes with <= 2 sides)
-  const safeLines = getSafeLines(state, availableLines);
+  // ── Medium: greedy — complete boxes, avoid giving 3-sided ────────────────
+  if (difficulty === 'medium') {
+    const completing = getCompletingLines(state, availableLines);
+    if (completing.length > 0) return completing[0];
 
-  if (safeLines.length > 0) {
-    if (difficulty === 'medium') {
+    const safeLines = getSafeLines(state, availableLines);
+    if (safeLines.length > 0) {
       return safeLines[Math.floor(Math.random() * safeLines.length)];
     }
-    
-    // Hard AI: Pick safe move that minimizes future opponent opportunities or preserves center control
-    return selectBestSafeMove(state, safeLines);
+    return selectLeastDamagingUnsafeMove(state, availableLines);
   }
 
-  // 4. No safe moves available: forced to open a chain for opponent
-  if (difficulty === 'medium') {
-    // Pick random unsafe move
-    return availableLines[Math.floor(Math.random() * availableLines.length)];
-  }
-
-  // Hard AI: Tactical chain length evaluation (give away the shortest chain!)
-  return selectLeastDamagingUnsafeMove(state, availableLines);
+  // ── Hard: minimax with alpha-beta pruning (safe, clones state) ───────────
+  return hardAiMove(state, availableLines);
 }
+
+// ─── Hard AI – Minimax ───────────────────────────────────────────────────────
+
+function adaptiveDepth(movesLeft: number): number {
+  if (movesLeft <= 8)  return 8;
+  if (movesLeft <= 16) return 6;
+  if (movesLeft <= 24) return 5;
+  if (movesLeft <= 32) return 4;
+  return 3;
+}
+
+function hardAiMove(state: GameState, availableLines: Line[]): Line {
+  // Always grab a free box immediately (trivially optimal)
+  const completing = getCompletingLines(state, availableLines);
+  if (completing.length > 0) {
+    // Among capturing moves, pick the one that leaves fewest 3-sided boxes for opponent
+    return completing.reduce((best, line) => {
+      return scoreCapture(state, line) <= scoreCapture(state, best) ? line : best;
+    });
+  }
+
+  const depth = adaptiveDepth(availableLines.length);
+  const aiPlayer = state.currentPlayer;
+
+  let bestScore = -Infinity;
+  let bestLine = availableLines[0];
+
+  // Move ordering: safe lines first, then least damaging unsafe
+  const safeLines = getSafeLines(state, availableLines);
+  const unsafeLines = availableLines
+    .filter(l => !safeLines.includes(l))
+    .sort((a, b) => estimateChainLength(state, a) - estimateChainLength(state, b));
+  const orderedLines = [...safeLines, ...unsafeLines];
+
+  for (const line of orderedLines) {
+    const { state: nextState } = simulateMove(state, line.id);
+    const isSameTurn = nextState.currentPlayer === aiPlayer;
+    const score = minimax(nextState, depth - 1, -Infinity, Infinity, isSameTurn, aiPlayer);
+    if (score > bestScore) {
+      bestScore = score;
+      bestLine = line;
+    }
+  }
+
+  return bestLine;
+}
+
+function minimax(
+  state: GameState,
+  depth: number,
+  alpha: number,
+  beta: number,
+  isMaximizing: boolean,
+  aiPlayer: number
+): number {
+  if (state.isGameOver || depth === 0) {
+    return evaluate(state, aiPlayer);
+  }
+
+  const lines = getAllAvailableLines(state);
+  if (lines.length === 0) return evaluate(state, aiPlayer);
+
+  // Move ordering for better pruning
+  const completing = getCompletingLines(state, lines);
+  const safe = getSafeLines(state, lines.filter(l => !completing.includes(l)));
+  const rest = lines
+    .filter(l => !completing.includes(l) && !safe.includes(l))
+    .sort((a, b) => estimateChainLength(state, a) - estimateChainLength(state, b));
+  const orderedLines = [...completing, ...safe, ...rest];
+
+  if (isMaximizing) {
+    let maxEval = -Infinity;
+    for (const line of orderedLines) {
+      const { state: next } = simulateMove(state, line.id);
+      const isSameTurn = next.currentPlayer === aiPlayer;
+      const val = minimax(next, depth - 1, alpha, beta, isSameTurn, aiPlayer);
+      maxEval = Math.max(maxEval, val);
+      alpha = Math.max(alpha, val);
+      if (beta <= alpha) break;
+    }
+    return maxEval;
+  } else {
+    let minEval = Infinity;
+    for (const line of orderedLines) {
+      const { state: next } = simulateMove(state, line.id);
+      const isSameTurn = next.currentPlayer !== aiPlayer;
+      const val = minimax(next, depth - 1, alpha, beta, !isSameTurn, aiPlayer);
+      minEval = Math.min(minEval, val);
+      beta = Math.min(beta, val);
+      if (beta <= alpha) break;
+    }
+    return minEval;
+  }
+}
+
+function evaluate(state: GameState, aiPlayer: number): number {
+  const opp = aiPlayer === 1 ? 2 : 1;
+  return state.scores[aiPlayer] - state.scores[opp];
+}
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function getCompletingLines(state: GameState, availableLines: Line[]): Line[] {
   const boxCount = state.config.gridSize - 1;
@@ -51,12 +173,10 @@ function getCompletingLines(state: GameState, availableLines: Line[]): Line[] {
     for (let c = 0; c < boxCount; c++) {
       const box = state.boxes[r][c];
       if (!box.owner && countSides(state, box) === 3) {
-        // Find which line of this box is unplaced
-        const missingLineId = [box.topLineId, box.bottomLineId, box.leftLineId, box.rightLineId].find(
-          id => !findLine(state, id)?.owner
-        );
-        if (missingLineId) {
-          const l = findLine(state, missingLineId);
+        const missingId = [box.topLineId, box.bottomLineId, box.leftLineId, box.rightLineId]
+          .find(id => !findLine(state, id)?.owner);
+        if (missingId) {
+          const l = findLine(state, missingId);
           if (l) completing.add(l);
         }
       }
@@ -68,22 +188,14 @@ function getCompletingLines(state: GameState, availableLines: Line[]): Line[] {
 
 function getSafeLines(state: GameState, availableLines: Line[]): Line[] {
   return availableLines.filter(line => {
-    // Simulating placing this line
     const adjacentBoxes = getAdjacentBoxes(state, line);
-    for (const box of adjacentBoxes) {
-      if (countSides(state, box) >= 2) {
-        // Placing this 3rd side would allow opponent to complete on their turn!
-        return false;
-      }
-    }
-    return true;
+    return adjacentBoxes.every(box => countSides(state, box) < 2);
   });
 }
 
 function getAdjacentBoxes(state: GameState, line: Line): Box[] {
   const boxes: Box[] = [];
   const boxCount = state.config.gridSize - 1;
-
   for (let r = 0; r < boxCount; r++) {
     for (let c = 0; c < boxCount; c++) {
       const box = state.boxes[r][c];
@@ -92,37 +204,26 @@ function getAdjacentBoxes(state: GameState, line: Line): Box[] {
         box.bottomLineId === line.id ||
         box.leftLineId === line.id ||
         box.rightLineId === line.id
-      ) {
-        boxes.push(box);
-      }
+      ) boxes.push(box);
     }
   }
   return boxes;
 }
 
-function selectBestSafeMove(state: GameState, safeLines: Line[]): Line {
-  // Prefer central lines to outer edge lines to retain flexibility
-  const N = state.config.gridSize;
-  const center = (N - 1) / 2;
+function estimateChainLength(state: GameState, line: Line): number {
+  return getAdjacentBoxes(state, line)
+    .filter(box => countSides(state, box) === 2).length;
+}
 
-  let bestLine = safeLines[0];
-  let minDistance = Infinity;
-
-  for (const line of safeLines) {
-    const dist = Math.hypot(line.row - center, line.col - center);
-    if (dist < minDistance) {
-      minDistance = dist;
-      bestLine = line;
-    }
-  }
-  return bestLine;
+function scoreCapture(state: GameState, line: Line): number {
+  const { state: next } = simulateMove(state, line.id);
+  const available = getAllAvailableLines(next);
+  return getCompletingLines(next, available).length;
 }
 
 function selectLeastDamagingUnsafeMove(state: GameState, availableLines: Line[]): Line {
-  // Estimate chain size opened by each line and pick line opening shortest chain
   let minChainLength = Infinity;
   let bestLine = availableLines[0];
-
   for (const line of availableLines) {
     const chainLen = estimateChainLength(state, line);
     if (chainLen < minChainLength) {
@@ -130,17 +231,5 @@ function selectLeastDamagingUnsafeMove(state: GameState, availableLines: Line[])
       bestLine = line;
     }
   }
-
   return bestLine;
-}
-
-function estimateChainLength(state: GameState, line: Line): number {
-  const adjBoxes = getAdjacentBoxes(state, line);
-  let count = 0;
-  for (const box of adjBoxes) {
-    if (countSides(state, box) === 2) {
-      count += 1;
-    }
-  }
-  return count;
 }
