@@ -74,20 +74,9 @@
     animation: pulseLine 1.5s infinite alternate;
   }
 
-  :global(.board-line.hint) {
-    stroke: var(--accent-gold) !important;
-    stroke-width: 10px !important;
-    animation: hintPulse 0.8s infinite alternate;
-  }
-
   @keyframes pulseLine {
     0% { stroke-width: 7px; filter: brightness(1); }
     100% { stroke-width: 10px; filter: brightness(1.4) drop-shadow(0 0 12px currentColor); }
-  }
-
-  @keyframes hintPulse {
-    0% { opacity: 0.4; }
-    100% { opacity: 1; filter: drop-shadow(0 0 14px var(--accent-gold)); }
   }
 
   /* SVG Box Styles */

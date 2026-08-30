@@ -9,11 +9,29 @@ let state: GameState;
 let timerInterval: number | null = null;
 let aiTimeoutId: number | null = null;
 
+const STORAGE_KEY = 'boxbattle_player_name';
+
 // ─── Helper ─────────────────────────────────────────────────────────────────
 
 function abbr(name: string, fallback: string): string {
   const t = (name || '').trim();
   return t.length > 0 ? t.substring(0, 3).toUpperCase() : fallback;
+}
+
+function getStoredPlayerName(): string | null {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function setStoredPlayerName(name: string): void {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, name);
+  } catch {
+    // Ignore storage errors
+  }
 }
 
 // ─── Init ────────────────────────────────────────────────────────────────────
@@ -31,13 +49,22 @@ export function initApp() {
     timerDuration: 15,
   };
 
+  const storedName = getStoredPlayerName();
+  if (storedName) {
+    defaultConfig.player1Name = storedName;
+  }
+
   state = createInitialState(defaultConfig);
 
   setupEventListeners();
   applyTheme(defaultConfig.theme);
 
-  // Show name-entry modal before the first game begins
-  openPlayerNamesModal('pve');
+  // Show name-entry modal only if no stored name exists
+  if (!storedName) {
+    openPlayerNamesModal('pve');
+  } else {
+    renderAll();
+  }
 }
 
 // ─── Render ──────────────────────────────────────────────────────────────────
@@ -409,10 +436,11 @@ function openPlayerNamesModal(mode: string) {
 // ─── Event Listeners ─────────────────────────────────────────────────────────
 
 function setupEventListeners() {
-  // New Game Button — re-ask for name
+  // New Game Button — start new game with stored name
   document.getElementById('new-game-btn')?.addEventListener('click', () => {
     audioEngine.playButtonClick();
-    openPlayerNamesModal(state.config.mode);
+    state = createInitialState(state.config);
+    renderAll();
   });
 
   // Undo Button
@@ -520,6 +548,8 @@ function setupModalListeners() {
     const name2 = state.config.mode === 'pvp' ? (p2Input?.value.trim() || 'Player 2') : 'Computer';
     state.config.player1Name = name1;
     state.config.player2Name = name2;
+    // Store the player name for this browser session
+    setStoredPlayerName(name1);
     namesModal?.classList.remove('active');
     state = createInitialState(state.config);
     renderAll();
@@ -557,7 +587,8 @@ function setupModalListeners() {
   document.getElementById('close-victory-btn')?.addEventListener('click', () => vicModal?.classList.remove('active'));
   document.getElementById('rematch-btn')?.addEventListener('click', () => {
     vicModal?.classList.remove('active');
-    openPlayerNamesModal(state.config.mode);
+    state = createInitialState(state.config);
+    renderAll();
   });
 }
 
