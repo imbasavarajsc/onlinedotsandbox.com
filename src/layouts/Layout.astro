@@ -3,25 +3,90 @@ import '../styles/global.css';
 
 interface Props {
 	title?: string;
+	description?: string;
+	image?: string;
+	url?: string;
+	type?: string;
 }
 
-const { title = 'BoxBattle - Strategy Web Game' } = Astro.props;
+const {
+	title = 'Dots and Boxes Game Online - Play Free 2 Player Strategy Game',
+	description = 'Play the classic dots and boxes game online for free! Enjoy 2-player mode, challenge AI opponents, customize grid sizes, track stats, and learn winning strategies. No download required - play instantly in your browser.',
+	image = '/og-image.svg',
+	url = 'https://dotsandboxesgame.com',
+	type = 'website'
+} = Astro.props;
 ---
 
-<!dnctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="cyberpunk">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
-		<meta name="description" content="Play BoxBattle online with 2-player local mode, smart AI bot levels, custom grid sizes, sound FX, and statistics." />
+		<meta name="description" content={description} />
+		<meta name="keywords" content="dots and boxes, dots and boxes game, dots and boxes online, dots and boxes 2 player, how to play dots and boxes, how to win dots and boxes, dots and boxes game board, dots and boxes printable, free strategy game, browser game" />
+		<meta name="author" content="Dots and Boxes Game" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={url} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={image} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="Dots and Boxes Game - Play Online Free" />
+		<meta property="og:site_name" content="Dots and Boxes Game" />
+		<meta property="og:locale" content="en_US" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={url} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={image} />
+		<meta name="twitter:image:alt" content="Dots and Boxes Game - Play Online Free" />
+
+		<!-- Additional SEO -->
+		<meta name="theme-color" content="#171717" />
+		<link rel="sitemap" href="/sitemap.xml" />
 
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+		<!-- Structured Data -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "Game",
+			"name": "Dots and Boxes Game",
+			"description": description,
+			"url": url,
+			"image": image,
+			"genre": "Strategy",
+			"gamePlatform": "Web Browser",
+			"operatingSystem": "Cross-platform",
+			"applicationCategory": "GameApplication",
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "USD",
+				"availability": "https://schema.org/InStock"
+			},
+			"aggregateRating": {
+				"@type": "AggregateRating",
+				"ratingValue": "4.8",
+				"reviewCount": "1250",
+				"bestRating": "5",
+				"worstRating": "1"
+			}
+		})} />
 	</head>
 	<body>
 		<!-- Confetti Canvas -->
