@@ -1,0 +1,211 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  error?: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<Layout
+  title="500 - Server Error | BoxBattle"
+  description="An unexpected server error occurred. Please refresh the page or return to BoxBattle to play."
+  url="https://dotsandboxesgame.com/500"
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader />
+
+    <main class="content-container">
+      <div class="error-card glass-panel">
+        <!-- Disconnected Server Grid Visual Animation -->
+        <div class="error-visual">
+          <svg width="180" height="180" viewBox="0 0 160 160" fill="none" class="error-svg">
+            <!-- Background Dot Matrix -->
+            <circle cx="30" cy="30" r="5" fill="#ef4444" class="error-dot" />
+            <circle cx="80" cy="30" r="5" fill="var(--player1-color)" />
+            <circle cx="130" cy="30" r="5" fill="#ef4444" class="error-dot" />
+
+            <circle cx="30" cy="80" r="5" fill="var(--player2-color)" />
+            <circle cx="80" cy="80" r="6" fill="#ef4444" class="central-error-dot" />
+            <circle cx="130" cy="80" r="5" fill="var(--player2-color)" />
+
+            <circle cx="30" cy="130" r="5" fill="#ef4444" class="error-dot" />
+            <circle cx="80" cy="130" r="5" fill="var(--player1-color)" />
+            <circle cx="130" cy="130" r="5" fill="#ef4444" class="error-dot" />
+
+            <!-- Jagged Fault Lines -->
+            <line x1="30" y1="30" x2="80" y2="80" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round" />
+            <line x1="130" y1="30" x2="80" y2="80" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round" />
+            <line x1="80" y1="80" x2="30" y2="130" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round" />
+            <line x1="80" y1="80" x2="130" y2="130" stroke="#ef4444" stroke-width="3" stroke-dasharray="6 4" stroke-linecap="round" />
+
+            <!-- Lightning / Glitch Warning Icon in Center -->
+            <path d="M78 48L68 76H86L74 108L96 72H78L88 48Z" fill="#ef4444" class="glitch-icon" />
+          </svg>
+        </div>
+
+        <div class="error-badge">500 Server Glitch</div>
+        <h1 class="error-title">Grid Overload!</h1>
+        <p class="error-message">
+          Our servers encountered an unexpected glitch while calculating the next turn. Don’t worry, your local high scores and saved preferences are completely safe!
+        </p>
+
+        {error instanceof Error && (
+          <div class="error-details">
+            <code>{error.message}</code>
+          </div>
+        )}
+
+        <div class="quick-links-panel">
+          <button onclick="window.location.reload();" class="btn btn-primary btn-lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+            </svg>
+            Reload Page
+          </button>
+          <a href="/" class="btn btn-lg">Return to Home</a>
+          <a href="/contact" class="btn">Contact Support</a>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 3rem 1.5rem 5rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
+
+  .error-card {
+    width: 100%;
+    padding: 3.5rem 2.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .error-visual {
+    margin-bottom: 0.5rem;
+  }
+
+  .error-svg {
+    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.3));
+  }
+
+  .error-dot {
+    animation: pulseRed 1.8s infinite alternate;
+  }
+
+  .central-error-dot {
+    animation: pulseRed 1.2s infinite alternate ease-in-out;
+  }
+
+  .glitch-icon {
+    animation: glitchFlash 2s infinite ease-in-out;
+  }
+
+  @keyframes pulseRed {
+    0% { filter: drop-shadow(0 0 2px #ef4444); }
+    100% { filter: drop-shadow(0 0 12px #ef4444); }
+  }
+
+  @keyframes glitchFlash {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.95); }
+    70% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .error-badge {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+  }
+
+  .error-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  .error-message {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #cbd5e1;
+    max-width: 520px;
+  }
+
+  .error-details {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    color: #f87171;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .quick-links-panel {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .btn-lg {
+    padding: 12px 24px;
+    font-size: 1.05rem;
+  }
+
+  @media (max-width: 640px) {
+    .error-card {
+      padding: 2.5rem 1.25rem;
+    }
+
+    .error-title {
+      font-size: 2rem;
+    }
+
+    .quick-links-panel {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .quick-links-panel .btn {
+      width: 100%;
+    }
+  }
+</style>
