@@ -1,0 +1,227 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Terms & Conditions - BoxBattle (Dots and Boxes Game)"
+  description="Review the Terms and Conditions for using BoxBattle. Free online web game terms, user conduct, intellectual property, and service guidelines."
+  url="https://dotsandboxesgame.com/terms"
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="terms" />
+
+    <main class="content-container">
+      <div class="legal-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Legal Agreement</div>
+          <h1 class="page-title">Terms & Conditions</h1>
+          <p class="last-updated">Last Updated: September 2026</p>
+        </header>
+
+        <section class="section-block">
+          <h2>1. Agreement to Terms</h2>
+          <p>
+            By accessing or playing <strong>BoxBattle</strong> at <a href="https://dotsandboxesgame.com">dotsandboxesgame.com</a> (the "Service"), you acknowledge that you have read, understood, and agreed to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the website.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>2. License & Permitted Use</h2>
+          <p>
+            We grant you a personal, non-exclusive, non-transferable, revocable license to access and play BoxBattle for personal, recreational, and educational purposes. You may:
+          </p>
+          <ul>
+            <li>Play the game individually against the computer AI or locally with friends.</li>
+            <li>Use the game in school classrooms, educational clubs, or family game nights free of charge.</li>
+            <li>Download, print, and distribute our free printable Dots and Boxes sheets for offline non-commercial use.</li>
+          </ul>
+        </section>
+
+        <section class="section-block">
+          <h2>3. Prohibited Activities</h2>
+          <p>
+            When utilizing our platform, you agree not to:
+          </p>
+          <ul>
+            <li>Attempt to reverse-engineer, exploit, or disrupt our web servers or infrastructure.</li>
+            <li>Deploy automated scripts, bots, or scrapers that place unreasonable load on our website.</li>
+            <li>Frame, mirror, or repackage BoxBattle inside commercial paywalls without express written consent.</li>
+            <li>Use the site in violation of any applicable local, national, or international laws.</li>
+          </ul>
+        </section>
+
+        <section class="section-block">
+          <h2>4. Intellectual Property Rights</h2>
+          <p>
+            While the underlying mathematical game rules of "Dots and Boxes" (published by Édouard Lucas in 1889) reside in the public domain, all proprietary source code, website artwork, visual animations, UI layouts, brand trademarks ("BoxBattle"), and audio synthesis designs are the intellectual property of BoxBattle. All rights reserved.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>5. Disclaimers & Limitation of Liability</h2>
+          <p>
+            BoxBattle is provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, whether express or implied. We do not guarantee that the game will operate entirely uninterrupted or bug-free on every browser version.
+          </p>
+          <p>
+            In no event shall BoxBattle or its contributors be liable for any indirect, incidental, or consequential damages resulting from the use or inability to use the game.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>6. Changes & Service Availability</h2>
+          <p>
+            We reserve the right to modify, update, enhance, or discontinue features of BoxBattle at any time without prior notice. We encourage users to periodically check this page for any updates to our terms.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>7. Contact Us</h2>
+          <p>
+            If you have any questions regarding these Terms & Conditions, please contact us at:
+          </p>
+          <div class="contact-box">
+            <p><strong>Email:</strong> <a href="mailto:legal@dotsandboxesgame.com">legal@dotsandboxesgame.com</a></p>
+            <p><strong>Support:</strong> <a href="/contact">Contact Page</a></p>
+          </div>
+        </section>
+
+        <div class="action-footer">
+          <a href="/" class="btn btn-primary">← Return to Dots and Boxes Game</a>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem 1.5rem 4rem 1.5rem;
+    flex: 1;
+  }
+
+  .legal-card {
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .page-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--player1-color);
+    background: var(--player1-bg);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .section-block h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .section-block p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #cbd5e1;
+  }
+
+  .section-block strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .section-block ul {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-block li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+  }
+
+  .section-block a {
+    color: var(--player1-color);
+    text-decoration: underline;
+  }
+
+  .contact-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 640px) {
+    .legal-card {
+      padding: 1.75rem 1.25rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .section-block h2 {
+      font-size: 1.15rem;
+    }
+  }
+</style>

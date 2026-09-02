@@ -1,0 +1,243 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Privacy Policy - BoxBattle (Dots and Boxes Game)"
+  description="Read our Privacy Policy to understand how BoxBattle protects your privacy. We are a privacy-first web game with zero tracking and no account requirements."
+  url="https://dotsandboxesgame.com/privacy"
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="privacy" />
+
+    <main class="content-container">
+      <div class="legal-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Privacy Policy</div>
+          <h1 class="page-title">Privacy Policy</h1>
+          <p class="last-updated">Last Updated: September 2026</p>
+        </header>
+
+        <section class="section-block">
+          <h2>1. Overview & Privacy Commitment</h2>
+          <p>
+            Welcome to <strong>BoxBattle</strong> (available at <a href="https://dotsandboxesgame.com">dotsandboxesgame.com</a>). Your privacy is of fundamental importance to us. We have built our Dots and Boxes online game with a strict <strong>privacy-first approach</strong>: no required user accounts, no unnecessary tracking, and no collection of sensitive personal data.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>2. Information We Do NOT Collect</h2>
+          <p>
+            Unlike many online gaming portals, BoxBattle does not require you to sign up, log in, or link any social media profiles. We do <strong>not</strong> collect:
+          </p>
+          <ul>
+            <li>Personal names, email addresses, or phone numbers (unless you contact us directly via support)</li>
+            <li>Financial or payment information (our game is 100% free)</li>
+            <li>Location tracking or precise GPS coordinates</li>
+            <li>Personal demographic profiles or behavioral ad tracking</li>
+          </ul>
+        </section>
+
+        <section class="section-block">
+          <h2>3. Browser Local Storage & Session Data</h2>
+          <p>
+            BoxBattle utilizes standard web browser storage features (such as <code>localStorage</code> and <code>sessionStorage</code>) exclusively to store your personal gameplay preferences locally on your own device. This includes:
+          </p>
+          <ul>
+            <li><strong>Player Custom Names:</strong> The nickname or handle you choose for Player 1 / Player 2.</li>
+            <li><strong>Gameplay Statistics:</strong> Total games played, win rate, best winning streaks, and AI conquests.</li>
+            <li><strong>Game Configuration:</strong> Your preferred grid size (3x3 to 7x7), AI difficulty, sound toggle, and turn timer preferences.</li>
+          </ul>
+          <p>
+            This data never leaves your browser and is never transmitted to any external marketing server. You can reset or delete this data at any time via the "Reset Statistics" button in the stats modal or by clearing your browser cache.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>4. Cookies & Web Analytics</h2>
+          <p>
+            BoxBattle does not use intrusive tracking cookies. Any cookies or technical headers used by hosting providers (such as Cloudflare or Vercel) serve strictly functional, security, and performance optimization purposes (such as DDoS prevention and CDN asset distribution).
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>5. Third-Party Services & External Links</h2>
+          <p>
+            We may utilize standard, privacy-respecting web infrastructure services such as Google Fonts to deliver clean typography. These services process technical IP requests solely to fulfill the font and asset delivery to your browser.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>6. Children's Privacy (COPPA Compliance)</h2>
+          <p>
+            BoxBattle is family-friendly and suitable for players of all ages, including children and students in classrooms. Because we do not knowingly solicit, collect, or store personal information from anyone, our platform adheres to the Children’s Online Privacy Protection Act (COPPA).
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>7. Updates to This Policy</h2>
+          <p>
+            We may periodically review and update this Privacy Policy to reflect technical enhancements or legal requirements. Any modifications will be posted directly on this page with an updated revision date.
+          </p>
+        </section>
+
+        <section class="section-block">
+          <h2>8. Contact Information</h2>
+          <p>
+            If you have questions, feedback, or concerns regarding our privacy practices, please contact our team:
+          </p>
+          <div class="contact-box">
+            <p><strong>Email:</strong> <a href="mailto:privacy@dotsandboxesgame.com">privacy@dotsandboxesgame.com</a></p>
+            <p><strong>Support Page:</strong> <a href="/contact">Visit Contact Us</a></p>
+          </div>
+        </section>
+
+        <div class="action-footer">
+          <a href="/" class="btn btn-primary">← Return to Dots and Boxes Game</a>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem 1.5rem 4rem 1.5rem;
+    flex: 1;
+  }
+
+  .legal-card {
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .page-header {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--player1-color);
+    background: var(--player1-bg);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .last-updated {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .section-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .section-block h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .section-block p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #cbd5e1;
+  }
+
+  .section-block strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .section-block code {
+    font-family: var(--font-mono);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--player1-color);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  .section-block ul {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .section-block li {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+  }
+
+  .section-block a {
+    color: var(--player1-color);
+    text-decoration: underline;
+  }
+
+  .contact-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .action-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 640px) {
+    .legal-card {
+      padding: 1.75rem 1.25rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .section-block h2 {
+      font-size: 1.15rem;
+    }
+  }
+</style>

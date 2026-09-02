@@ -1,0 +1,223 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Brand column -->
+      <div class="footer-brand-col">
+        <a href="/" class="footer-brand">
+          <div class="footer-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
+              <circle cx="18" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
+              <circle cx="6" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
+              <circle cx="18" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
+              <line x1="6" y1="6" x2="18" y2="6" stroke="var(--player1-color)" stroke-width="3" />
+              <line x1="6" y1="6" x2="6" y2="18" stroke="var(--player2-color)" stroke-width="3" />
+            </svg>
+          </div>
+          <span class="footer-brand-name">BoxBattle</span>
+        </a>
+        <p class="footer-tagline">
+          The ultimate classic Dots and Boxes strategy game online. Play solo against smart AI or challenge friends in 2-player mode. Free, instant, and privacy-friendly.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-nav-col">
+        <h3 class="footer-heading">Game</h3>
+        <ul class="footer-links">
+          <li><a href="/">Play Online</a></li>
+          <li><a href="/#game-description">Game Guide</a></li>
+          <li><a href="/about">About BoxBattle</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal & Company -->
+      <div class="footer-nav-col">
+        <h3 class="footer-heading">Company & Legal</h3>
+        <ul class="footer-links">
+          <li><a href="/about">About Us</a></li>
+          <li><a href="/contact">Contact Us</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <p class="copyright">
+        &copy; {currentYear} BoxBattle (Dots and Boxes Game). All rights reserved.
+      </p>
+      <div class="footer-bottom-links">
+        <a href="/privacy">Privacy</a>
+        <span>&bull;</span>
+        <a href="/terms">Terms</a>
+        <span>&bull;</span>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    padding: 3rem 1.5rem 2rem 1.5rem;
+    position: relative;
+  }
+
+  .site-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.3), rgba(251, 113, 133, 0.3), transparent);
+  }
+
+  .footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-main);
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+  }
+
+  .footer-brand-name {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+  }
+
+  .footer-tagline {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: 420px;
+  }
+
+  .footer-nav-col {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    display: inline-block;
+  }
+
+  .footer-links a:hover {
+    color: var(--player1-color);
+    transform: translateX(3px);
+  }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+
+  .footer-bottom-links a {
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-bottom-links a:hover {
+    color: var(--text-main);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.75rem;
+    }
+  }
+</style>
