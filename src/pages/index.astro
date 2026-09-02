@@ -17,7 +17,10 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 >
 	<main class="game-layout">
 		<Navbar />
-		
+		<Scoreboard />
+		<GameBoard />
+		<GameControls />
+
 		<!-- SEO Content Section -->
 		<section class="seo-content" aria-labelledby="game-description">
 			<div class="content-container">
@@ -133,10 +136,6 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 				</div>
 			</div>
 		</section>
-		
-		<Scoreboard />
-		<GameBoard />
-		<GameControls />
 	</main>
 
 	<!-- Modals -->
@@ -162,14 +161,27 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		padding-bottom: 40px;
+		padding-bottom: 60px;
 	}
 	
 	.seo-content {
 		width: 100%;
-		max-width: 800px;
-		padding: 2rem 1.5rem;
-		margin-top: 1rem;
+		max-width: 900px;
+		padding: 3.5rem 1.5rem 2rem 1.5rem;
+		margin-top: 2rem;
+		position: relative;
+	}
+
+	.seo-content::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 80%;
+		max-width: 600px;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), rgba(56, 189, 248, 0.4), rgba(255, 255, 255, 0.1), transparent);
 	}
 	
 	.content-container {
@@ -179,48 +191,54 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 	}
 	
 	.page-title {
-		font-size: 2.5rem;
+		font-size: 2.25rem;
 		font-weight: 800;
-		line-height: 1.2;
+		line-height: 1.25;
 		letter-spacing: -0.03em;
-		color: #171717;
-		margin-bottom: 1rem;
+		color: #ffffff;
+		margin-bottom: 0.5rem;
 		text-align: center;
 	}
 	
 	.game-intro {
-		font-size: 1.125rem;
-		line-height: 1.7;
-		color: #4d4d4d;
+		font-size: 1.05rem;
+		line-height: 1.75;
+		color: #cbd5e1;
 	}
 	
 	.game-intro p {
-		margin-bottom: 1rem;
+		margin-bottom: 1.25rem;
+	}
+
+	.game-intro strong,
+	.content-section strong {
+		color: #ffffff;
+		font-weight: 700;
 	}
 	
 	.section-heading {
-		font-size: 1.75rem;
+		font-size: 1.6rem;
 		font-weight: 700;
-		line-height: 1.3;
+		line-height: 1.35;
 		letter-spacing: -0.02em;
-		color: #171717;
+		color: #ffffff;
 		margin-bottom: 1rem;
-		padding-bottom: 0.5rem;
-		border-bottom: 2px solid #ebebeb;
+		padding-bottom: 0.6rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 	
 	.subsection-heading {
-		font-size: 1.25rem;
+		font-size: 1.2rem;
 		font-weight: 600;
 		line-height: 1.4;
-		color: #171717;
+		color: #f1f5f9;
 		margin: 1.5rem 0 0.75rem 0;
 	}
 	
 	.content-section {
-		font-size: 1rem;
-		line-height: 1.7;
-		color: #4d4d4d;
+		font-size: 0.975rem;
+		line-height: 1.75;
+		color: #cbd5e1;
 	}
 	
 	.content-section p {
@@ -233,7 +251,8 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 	
 	.content-section li {
 		margin-bottom: 0.5rem;
-		line-height: 1.6;
+		line-height: 1.65;
+		color: #cbd5e1;
 	}
 	
 	.rule-list {
@@ -251,7 +270,7 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 	
 	.benefit-list li {
 		position: relative;
-		padding-left: 1.5rem;
+		padding-left: 1.75rem;
 		margin-bottom: 0.75rem;
 	}
 	
@@ -259,45 +278,65 @@ import PlayerNamesModal from '../components/PlayerNamesModal.astro';
 		content: "✓";
 		position: absolute;
 		left: 0;
-		color: #0070f3;
-		font-weight: 600;
+		color: var(--player1-color);
+		font-weight: 700;
 	}
 	
 	.tip-list {
 		list-style-type: decimal;
+		margin-left: 1.5rem;
+	}
+
+	.tip-list li {
+		color: #cbd5e1;
 	}
 	
 	.cta-section {
 		text-align: center;
-		padding: 1.5rem;
-		background: #fafafa;
-		border: 1px solid #ebebeb;
-		border-radius: 12px;
+		padding: 1.75rem;
+		background: rgba(30, 41, 59, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--border-color);
+		border-radius: var(--radius-md);
 		margin-top: 1rem;
+		box-shadow: var(--shadow-sm);
 	}
 	
 	.cta-section p {
-		font-size: 1.125rem;
+		font-size: 1.05rem;
 		font-weight: 500;
-		color: #171717;
+		color: #f8fafc;
 		margin: 0;
+		line-height: 1.6;
+	}
+
+	.cta-section strong {
+		color: var(--player1-color);
+		font-weight: 700;
 	}
 	
 	@media (max-width: 640px) {
 		.page-title {
-			font-size: 1.875rem;
+			font-size: 1.75rem;
 		}
 		
 		.section-heading {
-			font-size: 1.5rem;
+			font-size: 1.35rem;
 		}
 		
 		.subsection-heading {
-			font-size: 1.125rem;
+			font-size: 1.1rem;
 		}
 		
 		.seo-content {
-			padding: 1.5rem 1rem;
+			padding: 2rem 1rem;
+			margin-top: 1.5rem;
+		}
+
+		.game-intro,
+		.content-section {
+			font-size: 0.925rem;
 		}
 	}
 </style>
