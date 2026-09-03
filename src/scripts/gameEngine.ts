@@ -1,4 +1,4 @@
-import type { GameConfig, GameState, Line, Box, Move, PlayerId } from './types';
+import type { GameConfig, GameState, Line, Box } from './types';
 
 export function createInitialState(config: GameConfig): GameState {
   const N = config.gridSize; // e.g. 4 dots -> 3x3 boxes

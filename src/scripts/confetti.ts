@@ -35,7 +35,6 @@ export function launchConfetti(canvasId: string = 'confetti-canvas') {
     });
   }
 
-  let animationFrameId: number;
   let frame = 0;
 
   function render() {
@@ -63,7 +62,7 @@ export function launchConfetti(canvasId: string = 'confetti-canvas') {
     }
 
     if (activeParticles > 0 && frame < 180) {
-      animationFrameId = requestAnimationFrame(render);
+      requestAnimationFrame(render);
     } else {
       ctx!.clearRect(0, 0, canvas.width, canvas.height);
     }

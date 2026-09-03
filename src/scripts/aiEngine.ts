@@ -1,4 +1,4 @@
-import type { GameState, Line, Box } from './types';
+import type { GameState, Line, Box, PlayerId } from './types';
 import { getAllAvailableLines, findLine, countSides, makeMove } from './gameEngine';
 
 // ─── Deep Clone ───────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ export function getAiMove(state: GameState, difficulty: 'easy' | 'medium' | 'har
 
   // ── Easy: mostly random, only occasionally completes boxes ───────────────
   if (difficulty === 'easy') {
-    const completing = getCompletingLines(state, availableLines);
+    const completing = getCompletingLines(state);
     if (completing.length > 0 && Math.random() < 0.6) {
       return completing[Math.floor(Math.random() * completing.length)];
     }
@@ -50,7 +50,7 @@ export function getAiMove(state: GameState, difficulty: 'easy' | 'medium' | 'har
 
   // ── Medium: greedy — complete boxes, avoid giving 3-sided ────────────────
   if (difficulty === 'medium') {
-    const completing = getCompletingLines(state, availableLines);
+    const completing = getCompletingLines(state);
     if (completing.length > 0) return completing[0];
 
     const safeLines = getSafeLines(state, availableLines);
@@ -76,7 +76,7 @@ function adaptiveDepth(movesLeft: number): number {
 
 function hardAiMove(state: GameState, availableLines: Line[]): Line {
   // Always grab a free box immediately (trivially optimal)
-  const completing = getCompletingLines(state, availableLines);
+  const completing = getCompletingLines(state);
   if (completing.length > 0) {
     // Among capturing moves, pick the one that leaves fewest 3-sided boxes for opponent
     return completing.reduce((best, line) => {
@@ -116,7 +116,7 @@ function minimax(
   alpha: number,
   beta: number,
   isMaximizing: boolean,
-  aiPlayer: number
+  aiPlayer: PlayerId
 ): number {
   if (state.isGameOver || depth === 0) {
     return evaluate(state, aiPlayer);
@@ -126,7 +126,7 @@ function minimax(
   if (lines.length === 0) return evaluate(state, aiPlayer);
 
   // Move ordering for better pruning
-  const completing = getCompletingLines(state, lines);
+  const completing = getCompletingLines(state);
   const safe = getSafeLines(state, lines.filter(l => !completing.includes(l)));
   const rest = lines
     .filter(l => !completing.includes(l) && !safe.includes(l))
@@ -158,14 +158,14 @@ function minimax(
   }
 }
 
-function evaluate(state: GameState, aiPlayer: number): number {
-  const opp = aiPlayer === 1 ? 2 : 1;
+function evaluate(state: GameState, aiPlayer: PlayerId): number {
+  const opp: PlayerId = aiPlayer === 1 ? 2 : 1;
   return state.scores[aiPlayer] - state.scores[opp];
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function getCompletingLines(state: GameState, availableLines: Line[]): Line[] {
+function getCompletingLines(state: GameState): Line[] {
   const boxCount = state.config.gridSize - 1;
   const completing: Set<Line> = new Set();
 
@@ -217,8 +217,7 @@ function estimateChainLength(state: GameState, line: Line): number {
 
 function scoreCapture(state: GameState, line: Line): number {
   const { state: next } = simulateMove(state, line.id);
-  const available = getAllAvailableLines(next);
-  return getCompletingLines(next, available).length;
+  return getCompletingLines(next).length;
 }
 
 function selectLeastDamagingUnsafeMove(state: GameState, availableLines: Line[]): Line {

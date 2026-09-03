@@ -41,7 +41,7 @@ export interface Move {
 }
 
 export type GameMode = 'pvp' | 'pve' | 'eve' | 'sandbox';
-export type ThemeId = 'cyberpunk' | 'geist' | 'arcade' | 'emerald';
+export type ThemeId = 'default' | 'cyberpunk' | 'geist' | 'arcade' | 'emerald';
 
 export interface GameConfig {
   gridSize: number; // Grid size in dots (e.g. 4 means 4x4 dots = 3x3 boxes)
