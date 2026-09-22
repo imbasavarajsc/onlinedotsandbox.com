@@ -1,6 +1,19 @@
 ---
 ---
 <section class="scoreboard glass-panel">
+  <!-- Center Turn Status & Timer (on mobile, placed on top via order / grid area) -->
+  <div class="turn-status-center">
+    <div id="turn-timer" class="timer-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span id="timer-text">15s</span>
+    </div>
+    <div id="status-message" class="status-msg">Player 1's Turn</div>
+    <div id="streak-banner" class="streak-badge hidden">🔥 Streak x<span id="streak-count">1</span></div>
+  </div>
+
   <!-- Player 1 Card -->
   <div id="player1-card" class="player-card active-turn p1">
     <div id="p1-avatar" class="player-avatar p1-avatar">P1</div>
@@ -12,19 +25,6 @@
       </div>
     </div>
     <div class="turn-indicator p1-indicator">TURN</div>
-  </div>
-
-  <!-- Center Turn Status & Timer -->
-  <div class="turn-status-center">
-    <div id="turn-timer" class="timer-badge">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12 6 12 12 16 14"></polyline>
-      </svg>
-      <span id="timer-text">15s</span>
-    </div>
-    <div id="status-message" class="status-msg">Player 1's Turn</div>
-    <div id="streak-banner" class="streak-badge hidden">🔥 Streak x<span id="streak-count">1</span></div>
   </div>
 
   <!-- Player 2 / AI Card -->
@@ -49,8 +49,27 @@
     padding: 16px 24px;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "p1 center p2";
     align-items: center;
     gap: 20px;
+  }
+
+  .turn-status-center {
+    grid-area: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+  #player1-card {
+    grid-area: p1;
+  }
+
+  #player2-card {
+    grid-area: p2;
   }
 
   .player-card {
@@ -81,6 +100,7 @@
   .player-avatar {
     width: 44px;
     height: 44px;
+    min-width: 44px;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
@@ -104,6 +124,8 @@
   .player-info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    flex: 1;
   }
 
   .align-right {
@@ -115,6 +137,10 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 
   .editable-name {
@@ -172,15 +198,6 @@
     color: #fff;
   }
 
-  .turn-status-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-align: center;
-  }
-
   .timer-badge {
     display: flex;
     align-items: center;
@@ -197,7 +214,7 @@
     font-size: 0.95rem;
     font-weight: 700;
     color: var(--text-main);
-    min-height: 1.4em;
+    min-height: 1.3em;
   }
 
   .streak-badge {
@@ -216,16 +233,70 @@
 
   @media (max-width: 768px) {
     .scoreboard {
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin: 8px;
-      padding: 12px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "center center"
+        "p1 p2";
+      gap: 8px;
+      margin: 6px 8px;
+      padding: 10px 12px;
+      width: calc(100% - 16px);
     }
-    .player-card {
-      padding: 8px 12px;
-    }
+
     .turn-status-center {
-      order: -1;
+      margin-bottom: 2px;
+      gap: 4px;
+    }
+
+    .status-msg {
+      font-size: 0.875rem;
+    }
+
+    .player-card {
+      padding: 8px 10px;
+      gap: 8px;
+    }
+
+    .player-avatar {
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      font-size: 0.9rem;
+    }
+
+    .player-score {
+      font-size: 1.4rem;
+    }
+
+    .player-name {
+      font-size: 0.8rem;
+    }
+
+    .turn-indicator {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .scoreboard {
+      padding: 8px;
+      gap: 6px;
+    }
+    
+    .player-card {
+      padding: 6px 8px;
+      gap: 6px;
+    }
+
+    .player-avatar {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      font-size: 0.8rem;
+    }
+
+    .player-score {
+      font-size: 1.25rem;
     }
   }
 </style>

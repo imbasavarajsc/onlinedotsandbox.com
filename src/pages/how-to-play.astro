@@ -1,0 +1,530 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Play Dots and Boxes",
+  "description": "Learn the complete rules, turns, scoring mechanics, and beginner tips for playing the classic Dots and Boxes strategy game.",
+  "image": "https://dotsandboxesgame.com/og-image.svg",
+  "totalTime": "PT3M",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Choose your grid size",
+      "text": "Select your preferred grid size, such as 3x3 for a quick match or up to 7x7 for a deep strategic battle.",
+      "position": 1
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Draw a line",
+      "text": "On your turn, click or tap between two adjacent unlinked dots to draw a horizontal or vertical line.",
+      "position": 2
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Complete a box",
+      "text": "When you draw the fourth wall of a 1x1 box, you claim it for your score and get an immediate bonus turn.",
+      "position": 3
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Win the game",
+      "text": "Continue playing until all lines are filled. The player with the most claimed boxes wins the match.",
+      "position": 4
+    }
+  ]
+};
+---
+
+<Layout
+  title="How to Play Dots and Boxes - Step-by-Step Rules & Tutorial"
+  description="Master how to play Dots and Boxes in minutes! Step-by-step guide with diagrams, basic rules, turn mechanics, scoring, bonus moves, and beginner strategy."
+  url="https://dotsandboxesgame.com/how-to-play"
+  schema={howToSchema}
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="how-to-play" />
+
+    <main class="content-container">
+      <div class="article-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Beginner's Guide</div>
+          <h1 class="page-title">How to Play Dots and Boxes</h1>
+          <p class="subtitle">
+            A comprehensive, visual step-by-step guide to the timeless pencil-and-paper strategy game. Learn the objective, turn flow, and secrets to winning your first match.
+          </p>
+        </header>
+
+        <!-- Quick Summary Box -->
+        <section class="quick-summary">
+          <div class="summary-item">
+            <span class="summary-label">👥 Players</span>
+            <span class="summary-val">2 Players (or vs AI)</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">⏱️ Game Time</span>
+            <span class="summary-val">3 – 10 Minutes</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">🧠 Complexity</span>
+            <span class="summary-val">Easy to Learn, Deep to Master</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">🎯 Objective</span>
+            <span class="summary-val">Claim the Most 1x1 Boxes</span>
+          </div>
+        </section>
+
+        <!-- Step by Step -->
+        <section class="guide-section">
+          <h2>1. The Objective</h2>
+          <p>
+            The goal of <strong>Dots and Boxes</strong> is simple: capture more 1x1 square boxes than your opponent. The game begins with an empty grid of dots. Players take turns drawing lines between adjacent dots. Completing the fourth side of a box claims that box and awards you <strong>1 point</strong> plus an <strong>extra turn</strong>.
+          </p>
+        </section>
+
+        <section class="guide-section">
+          <h2>2. How Turns Work (Step-by-Step)</h2>
+          <div class="steps-list">
+            <div class="step-card">
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <h3>Draw One Line</h3>
+                <p>On your turn, connect two adjacent dots horizontally or vertically. Diagonal lines are not permitted in standard play.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <h3>Check for Completed Boxes</h3>
+                <p>If the line you drew creates the 4th side of one or two 1x1 boxes, you immediately capture those boxes. Your initials/color will fill the box, and your score increments.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <h3>Bonus Turns (Chain Captures)</h3>
+                <p>Whenever you complete a box, you <strong>must take another turn</strong>. If that turn completes another box, you get yet another turn! This allows skilled players to capture long sequences ("chains") in a single turn.</p>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-num">04</div>
+              <div class="step-body">
+                <h3>Turn Passes</h3>
+                <p>If your line did not complete any box, your turn ends immediately and your opponent takes their move.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Visual Diagram -->
+        <section class="guide-section">
+          <h2>3. Visual Example: Completing a Box</h2>
+          <div class="diagram-container">
+            <div class="diagram-step">
+              <div class="diagram-svg-box">
+                <svg viewBox="0 0 140 140" width="100" height="100">
+                  <circle cx="30" cy="30" r="6" fill="#475569"/>
+                  <circle cx="110" cy="30" r="6" fill="#475569"/>
+                  <circle cx="30" cy="110" r="6" fill="#475569"/>
+                  <circle cx="110" cy="110" r="6" fill="#475569"/>
+                  <line x1="30" y1="30" x2="110" y2="30" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="30" y1="30" x2="30" y2="110" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="diagram-caption">1. Two sides drawn</span>
+            </div>
+
+            <div class="diagram-arrow">➔</div>
+
+            <div class="diagram-step">
+              <div class="diagram-svg-box">
+                <svg viewBox="0 0 140 140" width="100" height="100">
+                  <circle cx="30" cy="30" r="6" fill="#475569"/>
+                  <circle cx="110" cy="30" r="6" fill="#475569"/>
+                  <circle cx="30" cy="110" r="6" fill="#475569"/>
+                  <circle cx="110" cy="110" r="6" fill="#475569"/>
+                  <line x1="30" y1="30" x2="110" y2="30" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="30" y1="30" x2="30" y2="110" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="110" y1="30" x2="110" y2="110" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="diagram-caption">2. Third side drawn (Danger zone!)</span>
+            </div>
+
+            <div class="diagram-arrow">➔</div>
+
+            <div class="diagram-step">
+              <div class="diagram-svg-box">
+                <svg viewBox="0 0 140 140" width="100" height="100">
+                  <rect x="34" y="34" width="72" height="72" rx="8" fill="rgba(251, 113, 133, 0.2)"/>
+                  <circle cx="30" cy="30" r="6" fill="#f8fafc"/>
+                  <circle cx="110" cy="30" r="6" fill="#f8fafc"/>
+                  <circle cx="30" cy="110" r="6" fill="#f8fafc"/>
+                  <circle cx="110" cy="110" r="6" fill="#f8fafc"/>
+                  <line x1="30" y1="30" x2="110" y2="30" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="30" y1="30" x2="30" y2="110" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="110" y1="30" x2="110" y2="110" stroke="#38bdf8" stroke-width="5" stroke-linecap="round"/>
+                  <line x1="30" y1="110" x2="110" y2="110" stroke="#fb7185" stroke-width="6" stroke-linecap="round"/>
+                  <text x="70" y="76" font-size="22" font-weight="900" fill="#fb7185" text-anchor="middle">P2</text>
+                </svg>
+              </div>
+              <span class="diagram-caption">3. Player 2 closes 4th side and scores!</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Golden Rules -->
+        <section class="guide-section">
+          <h2>4. Key Rules to Remember</h2>
+          <ul class="key-rules">
+            <li><strong>You cannot pass:</strong> When it is your turn, you must draw a line.</li>
+            <li><strong>Bonus moves are mandatory:</strong> When you complete a box, you cannot decline the extra turn.</li>
+            <li><strong>Simultaneous boxes:</strong> Drawing one central line can complete two boxes at the same time, earning you 2 points!</li>
+            <li><strong>Game End:</strong> The match ends the moment all available lines on the grid are filled.</li>
+          </ul>
+        </section>
+
+        <!-- Beginner Tips -->
+        <section class="guide-section">
+          <h2>5. Quick Tips for Beginners</h2>
+          <div class="tips-grid">
+            <div class="tip-card">
+              <h4>⚠️ Don't Give 3rd Sides</h4>
+              <p>The number one rookie mistake is drawing the 3rd side of a box. Doing so lets your opponent immediately claim the box on their next turn.</p>
+            </div>
+            <div class="tip-card">
+              <h4>🎯 Count Available Safe Lines</h4>
+              <p>Early in the game, focus on finding "safe" moves—lines that only leave 1 or 2 sides filled on adjacent boxes.</p>
+            </div>
+            <div class="tip-card">
+              <h4>⚡ Master the Double-Cross</h4>
+              <p>When capturing a chain, giving away the last two boxes can force your opponent to open the next long chain for you. Read our <a href="/strategy">Strategy Guide</a> for details.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="cta-banner">
+          <h3>Ready to Test Your Skills?</h3>
+          <p>Put your knowledge into practice right now. Play against our intelligent computer AI or invite a friend for 2-player local action.</p>
+          <div class="cta-buttons">
+            <a href="/" class="btn btn-primary">🎮 Play Dots and Boxes Online</a>
+            <a href="/strategy" class="btn">📖 Read Strategy Guide</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 1rem 1.5rem 3rem 1.5rem;
+  }
+
+  .article-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background: var(--player1-bg);
+    color: var(--player1-color);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .quick-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+  }
+
+  .summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .summary-label {
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .summary-val {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .guide-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .guide-section h2 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .guide-section p {
+    font-size: 0.975rem;
+    line-height: 1.7;
+    color: #cbd5e1;
+  }
+
+  .guide-section strong {
+    color: #ffffff;
+  }
+
+  .steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+  }
+
+  .step-num {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--player1-color);
+    line-height: 1;
+    font-family: var(--font-mono);
+  }
+
+  .step-body h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.35rem;
+  }
+
+  .step-body p {
+    font-size: 0.925rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .diagram-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+  }
+
+  .diagram-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+    max-width: 180px;
+  }
+
+  .diagram-svg-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .diagram-caption {
+    font-size: 0.825rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .diagram-arrow {
+    font-size: 1.5rem;
+    color: var(--player1-color);
+  }
+
+  .key-rules {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .key-rules li {
+    position: relative;
+    padding-left: 1.75rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .key-rules li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--player1-color);
+    font-weight: 800;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .tip-card {
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .tip-card h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .tip-card p {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .tip-card a {
+    color: var(--player1-color);
+    text-decoration: underline;
+  }
+
+  .cta-banner {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .cta-banner p {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .diagram-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .diagram-arrow {
+      transform: rotate(90deg);
+    }
+
+    .cta-buttons {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+</style>

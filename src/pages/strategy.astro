@@ -1,0 +1,431 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+
+const strategySchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Dots and Boxes Winning Strategy: Master The Double-Cross & Chain Theory",
+  "description": "Master advanced Dots and Boxes strategies. Learn combinatorial chain theory, the mathematical double-cross technique, tempo control, and endgame calculations.",
+  "author": {
+    "@type": "Organization",
+    "name": "BoxBattle (Dots and Boxes Game)"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dots and Boxes Game",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dotsandboxesgame.com/og-image.svg"
+    }
+  },
+  "mainEntityOfPage": "https://dotsandboxesgame.com/strategy"
+};
+---
+
+<Layout
+  title="Dots and Boxes Strategy Guide - How to Win, Double-Cross & Tactics"
+  description="Learn expert Dots and Boxes strategies to beat friends and AI opponents. In-depth guide on chain theory, the double-cross maneuver, control of the center, and endgame math."
+  url="https://dotsandboxesgame.com/strategy"
+  schema={strategySchema}
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="strategy" />
+
+    <main class="content-container">
+      <div class="article-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Masterclass</div>
+          <h1 class="page-title">Dots and Boxes Strategy Guide</h1>
+          <p class="subtitle">
+            From basic chain avoidance to advanced mathematical game theory. Discover how master players control tempo, execute the double-cross, and win almost every match.
+          </p>
+        </header>
+
+        <!-- The Core Philosophy -->
+        <section class="strategy-section">
+          <h2>🧠 The Core Truth of Dots and Boxes</h2>
+          <p>
+            Many beginners mistakenly assume that Dots and Boxes is about grabbing every available box as quickly as possible. In reality, master play is about <strong>controlling who opens the next chain</strong>.
+          </p>
+          <p>
+            In combinatorial game theory (studied famously by mathematician Elwyn Berlekamp in <em>The Dots and Boxes Game: Sophisticated Child's Play</em>), the player who controls the tempo of the endgame virtually always wins.
+          </p>
+        </section>
+
+        <!-- Strategy 1: Safe Openings -->
+        <section class="strategy-section">
+          <h2>1. The Opening Phase: Safe Lines</h2>
+          <p>
+            During the opening moves, your goal is simple: <strong>do not be the first player forced to create a 3rd side</strong>.
+          </p>
+          <div class="strategy-callout">
+            <h4>💡 Safe Move Hierarchy:</h4>
+            <ul>
+              <li><strong>Tier 1 (Safest):</strong> Lines that leave 0 or 1 sides on adjacent boxes.</li>
+              <li><strong>Tier 2 (Cautious):</strong> Lines that create a 2nd side on a box where your opponent cannot easily turn it into a 3rd side.</li>
+              <li><strong>Tier 3 (Danger):</strong> Lines that complete a 3rd side on any box—this hands free points and momentum to your opponent!</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Strategy 2: The Double-Cross -->
+        <section class="strategy-section">
+          <h2>2. The Legendary "Double-Cross" Technique</h2>
+          <p>
+            The <strong>Double-Cross</strong> is the most important tactical weapon in Dots and Boxes. When your opponent hands you a chain of 3 or more boxes, a beginner captures every single box and is then forced to open the next chain. A master takes all but the last two boxes, then sacrifices them!
+          </p>
+
+          <div class="technique-box">
+            <h3>⚔️ How the Double-Cross Works:</h3>
+            <ol class="step-ol">
+              <li>You are given a chain of 4 boxes.</li>
+              <li>You capture the first 2 boxes.</li>
+              <li>Instead of capturing the 3rd and 4th boxes, you draw a dividing line between them, creating two separate 3-sided boxes.</li>
+              <li>Your turn ends. Your opponent is now <em>forced</em> to take those 2 boxes.</li>
+              <li>Because your opponent completed the last box, <strong>they must take another turn</strong> and break open the next chain for you!</li>
+            </ol>
+          </div>
+
+          <p>
+            By sacrificing 2 boxes, you force your opponent to hand you the next chain of 4, 6, or 8 boxes—winning you a massive net advantage!
+          </p>
+        </section>
+
+        <!-- Strategy 3: The Long Chain Rule -->
+        <section class="strategy-section">
+          <h2>3. The Long Chain Rule (Berlekamp's Theorem)</h2>
+          <p>
+            Mathematicians classify chains into two categories:
+          </p>
+          <div class="features-grid">
+            <div class="feature-item">
+              <h3>Short Chains (1 to 2 Boxes)</h3>
+              <p>Short chains cannot be double-crossed effectively. The player capturing them gains 1 or 2 points and must move again.</p>
+            </div>
+            <div class="feature-item">
+              <h3>Long Chains (3+ Boxes)</h3>
+              <p>Long chains can always be double-crossed. The player who enters a long chain can always forfeit 2 boxes to retain turn tempo.</p>
+            </div>
+          </div>
+          <p>
+            <strong>Golden Rule:</strong> The player who wins the parity battle on long chains typically wins the match.
+          </p>
+        </section>
+
+        <!-- Strategy 4: Center vs Corners -->
+        <section class="strategy-section">
+          <h2>4. Board Geometry: Center Control</h2>
+          <p>
+            On larger boards (5x5, 6x6, 7x7):
+          </p>
+          <ul class="bullet-list">
+            <li><strong>Corner boxes</strong> have 2 external borders, meaning they only require 2 internal lines to close.</li>
+            <li><strong>Edge boxes</strong> have 1 external border, requiring 3 lines.</li>
+            <li><strong>Center boxes</strong> have 0 external borders, requiring 4 internal lines.</li>
+          </ul>
+          <p>
+            Playing carefully in the center keeps the board open longer and prevents accidental premature chain closures.
+          </p>
+        </section>
+
+        <!-- Strategy 5: Common Mistakes -->
+        <section class="strategy-section">
+          <h2>5. Five Mistakes to Avoid</h2>
+          <div class="mistakes-list">
+            <div class="mistake-item">
+              <span class="mistake-icon">❌</span>
+              <div>
+                <strong>Greedy Grabbing:</strong> Taking every box in a chain without checking where your next forced move lands.
+              </div>
+            </div>
+            <div class="mistake-item">
+              <span class="mistake-icon">❌</span>
+              <div>
+                <strong>Ignoring Box Counts:</strong> Not calculating if the sacrificed boxes will cost you the game in the final score.
+              </div>
+            </div>
+            <div class="mistake-item">
+              <span class="mistake-icon">❌</span>
+              <div>
+                <strong>Opening Loops:</strong> Creating a circular closed loop of 4 boxes that an opponent can claim in a single sweep.
+              </div>
+            </div>
+            <div class="mistake-item">
+              <span class="mistake-icon">❌</span>
+              <div>
+                <strong>Premature 3rd Sides:</strong> Drawing a 3rd side when safe 1st or 2nd side lines are still available elsewhere.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="cta-banner">
+          <h3>Test Your Mastery Against Our Hard AI</h3>
+          <p>Our Hard AI utilizes combinatorial chain-avoidance and double-cross strategies. Can you outplay it?</p>
+          <div class="cta-buttons">
+            <a href="/" class="btn btn-primary">⚔️ Challenge Hard AI</a>
+            <a href="/how-to-play" class="btn">📖 How to Play Tutorial</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 1rem 1.5rem 3rem 1.5rem;
+  }
+
+  .article-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background: var(--player1-bg);
+    color: var(--player1-color);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .strategy-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .strategy-section h2 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .strategy-section p {
+    font-size: 0.975rem;
+    line-height: 1.7;
+    color: #cbd5e1;
+  }
+
+  .strategy-section strong {
+    color: #ffffff;
+  }
+
+  .strategy-callout {
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .strategy-callout h4 {
+    color: var(--player1-color);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .strategy-callout ul {
+    margin-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .strategy-callout li {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .technique-box {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-gold);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .technique-box h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+  }
+
+  .step-ol {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .step-ol li {
+    font-size: 0.925rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .feature-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature-item h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .feature-item p {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .bullet-list {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bullet-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .mistakes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mistake-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #cbd5e1;
+  }
+
+  .mistake-icon {
+    font-size: 1rem;
+  }
+
+  .cta-banner {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .cta-banner p {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .cta-buttons {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+</style>

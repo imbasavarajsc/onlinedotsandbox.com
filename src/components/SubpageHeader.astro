@@ -1,6 +1,6 @@
 ---
 interface Props {
-  activePage?: 'about' | 'contact' | 'privacy' | 'terms';
+  activePage?: 'about' | 'contact' | 'privacy' | 'terms' | 'how-to-play' | 'rules' | 'strategy' | 'faq';
 }
 
 const { activePage } = Astro.props;
@@ -8,7 +8,7 @@ const { activePage } = Astro.props;
 
 <header class="subpage-navbar glass-panel">
   <div class="nav-container">
-    <a href="/" class="brand">
+    <a href="/" class="brand" aria-label="BoxBattle Home">
       <div class="brand-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="6" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
@@ -24,12 +24,13 @@ const { activePage } = Astro.props;
       </div>
     </a>
 
-    <nav class="nav-links">
-      <a href="/" class="nav-link">🎮 Play Game</a>
+    <nav class="nav-links" aria-label="Site Navigation">
+      <a href="/" class="nav-link">🎮 Play</a>
+      <a href="/how-to-play" class={`nav-link ${activePage === 'how-to-play' ? 'active' : ''}`}>How to Play</a>
+      <a href="/rules" class={`nav-link ${activePage === 'rules' ? 'active' : ''}`}>Rules</a>
+      <a href="/strategy" class={`nav-link ${activePage === 'strategy' ? 'active' : ''}`}>Strategy</a>
+      <a href="/faq" class={`nav-link ${activePage === 'faq' ? 'active' : ''}`}>FAQ</a>
       <a href="/about" class={`nav-link ${activePage === 'about' ? 'active' : ''}`}>About</a>
-      <a href="/contact" class={`nav-link ${activePage === 'contact' ? 'active' : ''}`}>Contact</a>
-      <a href="/privacy" class={`nav-link ${activePage === 'privacy' ? 'active' : ''}`}>Privacy</a>
-      <a href="/terms" class={`nav-link ${activePage === 'terms' ? 'active' : ''}`}>Terms</a>
     </nav>
   </div>
 </header>
@@ -80,15 +81,16 @@ const { activePage } = Astro.props;
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
   }
 
   .nav-link {
     display: inline-flex;
     align-items: center;
-    padding: 8px 14px;
-    font-size: 0.9rem;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-muted);
     text-decoration: none;
@@ -96,6 +98,7 @@ const { activePage } = Astro.props;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid transparent;
     transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .nav-link:hover {
@@ -110,25 +113,32 @@ const { activePage } = Astro.props;
     border-color: rgba(56, 189, 248, 0.3);
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .subpage-navbar {
-      margin: 8px;
-      padding: 12px 16px;
+      margin: 8px 8px 0 8px;
+      padding: 10px 14px;
+      width: calc(100% - 16px);
     }
     
     .game-title {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
     }
 
     .nav-links {
       width: 100%;
       justify-content: flex-start;
-      gap: 6px;
+      gap: 4px;
     }
 
     .nav-link {
       padding: 6px 10px;
       font-size: 0.8rem;
+      min-height: 36px;
     }
   }
 </style>

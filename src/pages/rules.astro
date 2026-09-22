@@ -1,0 +1,402 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+
+const rulesSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Official Rules of Dots and Boxes",
+  "description": "Complete official rulebook for Dots and Boxes (La Pipopipette). Covers standard regulations, turn sequences, scoring, tournament rules, and variants.",
+  "author": {
+    "@type": "Organization",
+    "name": "BoxBattle (Dots and Boxes Game)"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dots and Boxes Game",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dotsandboxesgame.com/og-image.svg"
+    }
+  },
+  "mainEntityOfPage": "https://dotsandboxesgame.com/rules"
+};
+---
+
+<Layout
+  title="Official Rules of Dots and Boxes - Complete Rulebook & Regulations"
+  description="Read the complete, definitive official rules of Dots and Boxes (La Pipopipette). Learn standard regulations, scoring conditions, tournament timing, and popular rule variants."
+  url="https://dotsandboxesgame.com/rules"
+  schema={rulesSchema}
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="rules" />
+
+    <main class="content-container">
+      <div class="article-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Official Rulebook</div>
+          <h1 class="page-title">Official Rules of Dots and Boxes</h1>
+          <p class="subtitle">
+            The definitive rulebook for Dots and Boxes (originally known as <em>La Pipopipette</em>). Standardized for casual play, digital platforms, and competitive tournaments.
+          </p>
+        </header>
+
+        <!-- Rule Summary Table -->
+        <section class="rules-section">
+          <h2>📋 Quick Reference Rules Summary</h2>
+          <div class="table-wrapper">
+            <table class="rules-table">
+              <thead>
+                <tr>
+                  <th>Rule Aspect</th>
+                  <th>Standard Regulation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Players</strong></td>
+                  <td>2 Players (1-on-1) or 1 Player vs Computer AI</td>
+                </tr>
+                <tr>
+                  <td><strong>Grid Sizes</strong></td>
+                  <td>NxN dots creating (N-1)x(N-1) boxes (e.g., 4x4 dots = 9 boxes)</td>
+                </tr>
+                <tr>
+                  <td><strong>Allowed Moves</strong></td>
+                  <td>One horizontal or vertical unlinked segment per turn</td>
+                </tr>
+                <tr>
+                  <td><strong>Diagonal Lines</strong></td>
+                  <td>Strictly prohibited</td>
+                </tr>
+                <tr>
+                  <td><strong>Box Completion</strong></td>
+                  <td>Drawing the 4th side captures the box for 1 point</td>
+                </tr>
+                <tr>
+                  <td><strong>Bonus Turn</strong></td>
+                  <td>Mandatory: Capturing a box grants an immediate additional move</td>
+                </tr>
+                <tr>
+                  <td><strong>Passing</strong></td>
+                  <td>Strictly prohibited; players must draw a valid line on their turn</td>
+                </tr>
+                <tr>
+                  <td><strong>End Condition</strong></td>
+                  <td>Game terminates when every grid segment is claimed</td>
+                </tr>
+                <tr>
+                  <td><strong>Victory</strong></td>
+                  <td>Player with the strictly higher number of captured boxes wins</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Detailed Rules Sections -->
+        <section class="rules-section">
+          <h2>1. Grid Layout & Setup</h2>
+          <p>
+            The game is played on a rectangular lattice of dots. In standard competitive play, square grids are used:
+          </p>
+          <ul class="bullet-list">
+            <li><strong>3x3 Dots:</strong> 2x2 grid containing 4 total boxes (quick 1-minute sprint).</li>
+            <li><strong>4x4 Dots (Standard):</strong> 3x3 grid containing 9 total boxes (classic tournament standard).</li>
+            <li><strong>5x5 Dots:</strong> 4x4 grid containing 16 total boxes (deep combinatorial balance).</li>
+            <li><strong>6x6 to 7x7 Dots:</strong> 25 to 36 boxes (epic master match with multi-chain dynamics).</li>
+          </ul>
+        </section>
+
+        <section class="rules-section">
+          <h2>2. Turn Sequence & Action Execution</h2>
+          <p>
+            Players determine who moves first randomly or by mutual agreement. Turns proceed alternately under the following constraints:
+          </p>
+          <ol class="numbered-list">
+            <li>The active player must select exactly one pair of adjacent dots (horizontally or vertically) that is not already joined by a line.</li>
+            <li>Upon drawing the line, the game checks whether any adjacent square is fully enclosed by 4 drawn lines.</li>
+            <li><strong>Case A (No Box Enclosed):</strong> The turn ends immediately and transfers to the opposing player.</li>
+            <li><strong>Case B (One Box Enclosed):</strong> The active player marks the enclosed box with their symbol/color, adds 1 point to their score, and is granted a mandatory bonus turn.</li>
+            <li><strong>Case C (Two Boxes Enclosed):</strong> If a line simultaneously closes two adjacent boxes sharing that edge, the active player claims both boxes (2 points) and receives a mandatory bonus turn.</li>
+          </ol>
+        </section>
+
+        <section class="rules-section">
+          <h2>3. Tournament & Competitive Rules</h2>
+          <p>
+            In organized competitive play and digital matches on BoxBattle, additional standard tournament regulations apply:
+          </p>
+          <div class="features-grid">
+            <div class="feature-item">
+              <h3>⏱️ Speed Turn Timers</h3>
+              <p>Players have a fixed time per move (e.g. 10s, 15s, or 30s). If the clock runs out before a line is drawn, a random valid move is automatically executed.</p>
+            </div>
+            <div class="feature-item">
+              <h3>🎯 No "Refusal of Bonus"</h3>
+              <p>A player who completes a box is not permitted to decline their extra turn. They must execute the bonus move immediately.</p>
+            </div>
+            <div class="feature-item">
+              <h3>🤝 Tie-Breaking</h3>
+              <p>On grids with an even number of total boxes (such as 3x3 dots = 4 boxes or 5x5 dots = 16 boxes), a tie score results in an official Draw unless agreed prior to play an odd-box decider match.</p>
+            </div>
+            <div class="feature-item">
+              <h3>🔄 Undo Policy</h3>
+              <p>In competitive matches, undo is disabled. In casual or training sandbox mode, players may freely undo and analyze move variations.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="rules-section">
+          <h2>4. Historical Variations</h2>
+          <p>
+            Over the last century, several fascinating variations of Dots and Boxes have emerged:
+          </p>
+          <ul class="bullet-list">
+            <li><strong>Misère (Reverse) Dots and Boxes:</strong> In this mathematical variant, the objective is inverted: the player who captures the <em>fewest</em> boxes wins! This requires counter-intuitive sacrifice strategies.</li>
+            <li><strong>Swedish / Icelandic Rule:</strong> When closing a chain, players are permitted to decline capturing subsequent boxes if they wish to forfeit tempo. (Not used in standard play).</li>
+            <li><strong>Triangular / Hexagonal Grids:</strong> Dots arranged in isometric triangular tessellations, requiring 3 lines per triangle or 6 per hexagon.</li>
+          </ul>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="cta-banner">
+          <h3>Ready to Play by the Rules?</h3>
+          <p>Jump into a match on our clean, instant game board. Choose your grid size and test your tactical execution.</p>
+          <div class="cta-buttons">
+            <a href="/" class="btn btn-primary">🎮 Play Standard Match</a>
+            <a href="/how-to-play" class="btn">📖 How to Play Guide</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 1rem 1.5rem 3rem 1.5rem;
+  }
+
+  .article-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background: var(--player1-bg);
+    color: var(--player1-color);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .rules-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .rules-section h2 {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .rules-section p {
+    font-size: 0.975rem;
+    line-height: 1.7;
+    color: #cbd5e1;
+  }
+
+  .rules-section strong {
+    color: #ffffff;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: rgba(15, 23, 42, 0.6);
+  }
+
+  .rules-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  .rules-table th,
+  .rules-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .rules-table th {
+    background: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .rules-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .rules-table td {
+    color: #cbd5e1;
+  }
+
+  .bullet-list {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bullet-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .numbered-list {
+    margin-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .numbered-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .feature-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .feature-item h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .feature-item p {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  .cta-banner {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .cta-banner p {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .rules-table th,
+    .rules-table td {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+    }
+
+    .cta-buttons {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+</style>

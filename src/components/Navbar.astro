@@ -4,7 +4,7 @@
   <div class="nav-container">
     <div class="brand">
       <div class="brand-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="6" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
           <circle cx="18" cy="6" r="2.5" fill="var(--player1-color)" stroke="none" />
           <circle cx="6" cy="18" r="2.5" fill="var(--player2-color)" stroke="none" />
@@ -22,7 +22,7 @@
       <!-- Mode Selector -->
       <div class="select-wrapper">
         <label for="mode-select" class="sr-only">Game Mode</label>
-        <select id="mode-select" class="btn select-input">
+        <select id="mode-select" class="btn select-input" aria-label="Game Mode">
           <option value="pve">vs Computer</option>
           <option value="pvp">2 Player</option>
           <option value="sandbox">Self Practice</option>
@@ -30,7 +30,7 @@
       </div>
 
       <!-- Sound Toggle -->
-      <button id="sound-toggle-btn" class="btn btn-icon" title="Toggle Sound">
+      <button id="sound-toggle-btn" class="btn btn-icon" title="Toggle Sound" aria-label="Toggle Sound" type="button">
         <svg id="sound-icon-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -42,7 +42,7 @@
       </button>
 
       <!-- Stats Modal Trigger -->
-      <button id="open-stats-btn" class="btn btn-icon" title="View Statistics">
+      <button id="open-stats-btn" class="btn btn-icon" title="View Statistics" aria-label="View Statistics" type="button">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="20" x2="18" y2="10"></line>
           <line x1="12" y1="20" x2="12" y2="4"></line>
@@ -51,7 +51,7 @@
       </button>
 
       <!-- Tutorial Modal Trigger -->
-      <button id="open-tutorial-btn" class="btn btn-icon" title="How to Play">
+      <button id="open-tutorial-btn" class="btn btn-icon" title="How to Play" aria-label="How to Play Tutorial" type="button">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
@@ -82,15 +82,15 @@
   .brand {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
   }
 
   .brand-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
@@ -102,7 +102,7 @@
   }
 
   .game-title {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-weight: 900;
     letter-spacing: -1px;
     color: var(--text-main);
@@ -112,7 +112,7 @@
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
   }
 
@@ -122,7 +122,10 @@
 
   .select-input {
     appearance: none;
+    -webkit-appearance: none;
+    min-height: 44px;
     padding-right: 32px;
+    padding-left: 14px;
     cursor: pointer;
     font-weight: 700;
     font-size: 0.95rem;
@@ -146,24 +149,59 @@
     border: 0;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     .navbar {
-      margin: 8px;
-      padding: 12px 16px;
+      margin: 8px 8px 0 8px;
+      padding: 10px 14px;
+      width: calc(100% - 16px);
     }
-    .game-title {
-      font-size: 1.8rem;
+
+    .nav-container {
+      gap: 10px;
     }
+
     .brand-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
     }
+
+    .game-title {
+      font-size: 1.6rem;
+    }
+
     .nav-actions {
       gap: 6px;
     }
+
     .select-input {
-      font-size: 0.85rem;
+      font-size: 0.875rem;
+      min-height: 44px;
+      padding-right: 28px;
+      padding-left: 10px;
+    }
+
+    .btn-icon {
+      width: 44px;
+      height: 44px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nav-container {
+      justify-content: space-between;
+    }
+    
+    .brand {
+      gap: 10px;
+    }
+
+    .game-title {
+      font-size: 1.4rem;
+    }
+
+    .select-input {
       padding: 8px 26px 8px 10px;
+      font-size: 0.825rem;
     }
   }
 </style>

@@ -7,6 +7,7 @@ interface Props {
 	image?: string;
 	url?: string;
 	type?: string;
+	schema?: object;
 }
 
 const {
@@ -14,12 +15,34 @@ const {
 	description = 'Play the classic dots and boxes game online for free! Enjoy 2-player mode, challenge AI opponents, customize grid sizes, track stats, and learn winning strategies. No download required - play instantly in your browser.',
 	image = '/og-image.svg',
 	url = 'https://dotsandboxesgame.com',
-	type = 'website'
+	type = 'website',
+	schema,
 } = Astro.props;
+
+const defaultSchema = {
+	"@context": "https://schema.org",
+	"@type": "Game",
+	"name": "Dots and Boxes Game",
+	"description": description,
+	"url": url,
+	"image": image,
+	"genre": "Strategy",
+	"gamePlatform": "Web Browser",
+	"operatingSystem": "Cross-platform",
+	"applicationCategory": "GameApplication",
+	"offers": {
+		"@type": "Offer",
+		"price": "0",
+		"priceCurrency": "USD",
+		"availability": "https://schema.org/InStock"
+	}
+};
+
+const structuredData = schema || defaultSchema;
 ---
 
 <!DOCTYPE html>
-<html lang="en" data-theme="cyberpunk">
+<html lang="en">
 	<head>
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-71K0EHXSC7"></script>
@@ -31,7 +54,7 @@ const {
 		  gtag('config', 'G-71K0EHXSC7');
 		</script>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
@@ -62,34 +85,16 @@ const {
 		<meta name="twitter:image:alt" content="Dots and Boxes Game - Play Online Free" />
 
 		<!-- Additional SEO -->
-		<meta name="theme-color" content="#171717" />
+		<meta name="theme-color" content="#0f172a" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 
-		<!-- Google Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+		<!-- Google Fonts Performance Optimization -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
 		<!-- Structured Data -->
-		<script type="application/ld+json" is:inline set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "Game",
-			"name": "Dots and Boxes Game",
-			"description": description,
-			"url": url,
-			"image": image,
-			"genre": "Strategy",
-			"gamePlatform": "Web Browser",
-			"operatingSystem": "Cross-platform",
-			"applicationCategory": "GameApplication",
-			"offers": {
-				"@type": "Offer",
-				"price": "0",
-				"priceCurrency": "USD",
-				"availability": "https://schema.org/InStock"
-			}
-			
-		})} />
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
 	</head>
 	<body>
 		<!-- Confetti Canvas -->

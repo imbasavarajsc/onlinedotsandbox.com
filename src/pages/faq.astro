@@ -1,0 +1,285 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SubpageHeader from '../components/SubpageHeader.astro';
+import Footer from '../components/Footer.astro';
+
+const faqs = [
+  {
+    q: "What is Dots and Boxes?",
+    a: "Dots and Boxes is a classic 2-player pencil-and-paper strategy game first published in 1889 by mathematician Édouard Lucas under the French name 'La Pipopipette'. Players alternate drawing lines between adjacent dots; closing a 1x1 box claims it for points and awards a bonus turn."
+  },
+  {
+    q: "Can I pass my turn in Dots and Boxes?",
+    a: "No. In standard Dots and Boxes rules, passing is not permitted. When it is your turn, you are required to draw one valid horizontal or vertical unlinked segment on the grid."
+  },
+  {
+    q: "What happens if I complete two boxes with one line?",
+    a: "If your line simultaneously forms the 4th side of two adjacent boxes (sharing that interior border), you capture both boxes, earn 2 points, and receive one mandatory bonus turn."
+  },
+  {
+    q: "Is Dots and Boxes free to play online?",
+    a: "Yes! BoxBattle is completely free, with no paywalls, subscriptions, download requirements, or intrusive ads. You can play directly in your web browser."
+  },
+  {
+    q: "How does the Computer AI work?",
+    a: "Our AI engine features three difficulty tiers: Easy makes random safe moves, Medium actively avoids creating 3-sided boxes and captures available chains, while Hard calculates chain parity and applies the double-cross maneuver to control turn tempo."
+  },
+  {
+    q: "Can I play against a friend on the same phone or laptop?",
+    a: "Yes! Select '2 Player' mode from the top dropdown. You can customize player names, track your head-to-head score, and pass the device back and forth seamlessly."
+  },
+  {
+    q: "What is the Double-Cross strategy?",
+    a: "The Double-Cross is an advanced technique where a player capturing a long chain deliberately sacrifices the last 2 boxes to the opponent. Because the opponent is forced to capture those 2 boxes, they must take the subsequent turn and open up the next long chain for you."
+  },
+  {
+    q: "Does the game save my win/loss statistics?",
+    a: "Yes. Your game stats (total games, win rate, longest winning streak, and boxes captured) are saved privately in your local browser storage. No personal data is sent to external servers."
+  },
+  {
+    q: "What is the standard tournament grid size?",
+    a: "The standard competitive grid size is 4x4 dots (which forms 9 boxes). For longer, more complex strategic battles, 5x5 dots (16 boxes) and 6x6 dots (25 boxes) are widely used."
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.a
+    }
+  }))
+};
+---
+
+<Layout
+  title="Frequently Asked Questions - Dots and Boxes (FAQ)"
+  description="Got questions about Dots and Boxes? Find clear answers on rules, turn mechanics, scoring, AI difficulty, pass-and-play multiplayer, and winning strategies."
+  url="https://dotsandboxesgame.com/faq"
+  schema={faqSchema}
+>
+  <div class="subpage-wrapper">
+    <SubpageHeader activePage="faq" />
+
+    <main class="content-container">
+      <div class="article-card glass-panel">
+        <header class="page-header">
+          <div class="badge">Help Center</div>
+          <h1 class="page-title">Frequently Asked Questions</h1>
+          <p class="subtitle">
+            Everything you need to know about Dots and Boxes rules, digital gameplay features, computer AI, and match strategies.
+          </p>
+        </header>
+
+        <!-- FAQ List -->
+        <section class="faq-section">
+          <div class="faq-list">
+            {faqs.map((faq, idx) => (
+              <details class="faq-item" id={`faq-${idx}`}>
+                <summary class="faq-question">
+                  <span>{faq.q}</span>
+                  <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </summary>
+                <div class="faq-answer">
+                  <p>{faq.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="cta-banner">
+          <h3>Ready to Play?</h3>
+          <p>Experience the ultimate digital Dots and Boxes game with smart AI, customizable boards, and live scoreboards.</p>
+          <div class="cta-buttons">
+            <a href="/" class="btn btn-primary">🎮 Start a Game</a>
+            <a href="/how-to-play" class="btn">📖 Read Game Guide</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</Layout>
+
+<style>
+  .subpage-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 1rem 1.5rem 3rem 1.5rem;
+  }
+
+  .article-card {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.25rem;
+  }
+
+  .page-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+    padding: 4px 12px;
+    background: var(--player1-bg);
+    color: var(--player1-color);
+    border: 1px solid var(--border-glow);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .page-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .faq-item[open] {
+    border-color: var(--border-glow);
+    background: rgba(56, 189, 248, 0.04);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ffffff;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-chevron {
+    color: var(--player1-color);
+    transition: transform var(--transition-normal);
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+
+  .faq-item[open] .faq-chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1rem;
+  }
+
+  .cta-banner {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-banner h3 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+  }
+
+  .cta-banner p {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-card {
+      padding: 1.5rem 1rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+    }
+
+    .faq-question {
+      padding: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .faq-answer {
+      padding: 0.75rem 1rem 1rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .cta-buttons {
+      width: 100%;
+      flex-direction: column;
+    }
+  }
+</style>
