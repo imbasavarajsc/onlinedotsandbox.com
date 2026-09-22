@@ -192,8 +192,8 @@ function createSvgLine(group: HTMLElement, line: Line, x1: number, y1: number, x
   hitLine.setAttribute('cursor', line.owner ? 'default' : 'pointer');
 
   if (!line.owner && !state.isGameOver) {
-    hitLine.addEventListener('mouseenter', () => visLine.classList.add('hovered'));
-    hitLine.addEventListener('mouseleave', () => visLine.classList.remove('hovered'));
+    hitLine.addEventListener('mouseenter', () => visLine.classList.add('hovered'), { passive: true });
+    hitLine.addEventListener('mouseleave', () => visLine.classList.remove('hovered'), { passive: true });
     hitLine.addEventListener('click', () => handleUserMove(line.id));
   }
 

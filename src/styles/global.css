@@ -51,28 +51,44 @@
   padding: 0;
 }
 
-html, body {
+html {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: var(--bg-primary);
   color: var(--text-main);
   font-family: var(--font-family);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -webkit-text-size-adjust: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* GPU-accelerated fixed background layer (avoids full-viewport repaint on mobile scroll) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-image: 
     radial-gradient(circle at 15% 15%, var(--player1-bg) 0%, transparent 45%),
     radial-gradient(circle at 85% 85%, var(--player2-bg) 0%, transparent 45%);
-  background-attachment: fixed;
-  overflow-x: hidden;
-  position: relative;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 button {
@@ -85,7 +101,7 @@ button {
   touch-action: manipulation;
 }
 
-/* Glass Panel Styling */
+/* Glass Panel Styling with GPU-layer containment */
 .glass-panel {
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
@@ -93,6 +109,16 @@ button {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-lg);
   border-radius: var(--radius-lg);
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
+}
+
+@media (max-width: 768px) {
+  .glass-panel {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 }
 
 /* Standard Button */
@@ -196,6 +222,7 @@ button {
   pointer-events: none;
   transition: opacity var(--transition-normal);
   padding: 16px;
+  transform: translateZ(0);
 }
 
 .modal-overlay.active {
@@ -215,6 +242,7 @@ button {
   box-shadow: var(--shadow-lg);
   transform: scale(0.95);
   transition: transform var(--transition-normal);
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-overlay.active .modal-content {
@@ -224,4 +252,13 @@ button {
 @keyframes popIn {
   0% { transform: scale(0.85); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

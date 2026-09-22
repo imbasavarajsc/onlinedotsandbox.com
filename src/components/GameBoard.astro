@@ -22,8 +22,9 @@
     justify-content: center;
     position: relative;
     user-select: none;
-    touch-action: manipulation;
+    touch-action: pan-y;
     -webkit-tap-highlight-color: transparent;
+    contain: layout style;
   }
 
   .svg-container {
@@ -44,7 +45,7 @@
   /* SVG Line Styles */
   :global(.board-line) {
     cursor: pointer;
-    transition: stroke var(--transition-fast), stroke-width var(--transition-fast), opacity var(--transition-fast);
+    transition: stroke var(--transition-fast), opacity var(--transition-fast);
   }
 
   :global(.board-line.empty) {
@@ -59,25 +60,23 @@
 
   :global(.board-line.claimed-p1) {
     stroke: var(--player1-color);
-    filter: drop-shadow(0 0 6px var(--player1-glow));
     stroke-width: 8px;
     stroke-linecap: round;
   }
 
   :global(.board-line.claimed-p2) {
     stroke: var(--player2-color);
-    filter: drop-shadow(0 0 6px var(--player2-glow));
     stroke-width: 8px;
     stroke-linecap: round;
   }
 
   :global(.board-line.last-move) {
-    animation: pulseLine 1.5s infinite alternate;
+    animation: pulseLine 1.4s ease-in-out infinite alternate;
   }
 
   @keyframes pulseLine {
-    0% { stroke-width: 7px; filter: brightness(1); }
-    100% { stroke-width: 10px; filter: brightness(1.4) drop-shadow(0 0 12px currentColor); }
+    0% { opacity: 0.8; }
+    100% { opacity: 1; }
   }
 
   /* SVG Box Styles */
@@ -115,12 +114,11 @@
   /* SVG Dot Styles */
   :global(.board-dot) {
     fill: var(--dot-color);
-    transition: fill var(--transition-normal), transform var(--transition-normal);
+    transition: fill var(--transition-normal);
   }
 
   :global(.board-dot.active) {
     fill: var(--dot-active);
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
   }
 
   @media (max-width: 768px) {
