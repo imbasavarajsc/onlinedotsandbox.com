@@ -106,14 +106,54 @@
     justify-content: center;
   }
 
-  /* Desktop Settings: Always visible & inline */
+  /* Game Settings Accordion */
   .settings-details {
     width: 100%;
-    display: block;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+    transition: background var(--transition-fast);
   }
 
   .settings-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .settings-summary::-webkit-details-marker {
     display: none;
+  }
+
+  .summary-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .summary-arrow {
+    display: flex;
+    align-items: center;
+    transition: transform var(--transition-normal);
+  }
+
+  .settings-details[open] .summary-arrow {
+    transform: rotate(180deg);
+  }
+
+  .settings-details[open] .settings-summary {
+    color: var(--player1-color);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .option-selectors {
@@ -122,6 +162,8 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 16px;
+    padding: 14px 16px;
+    width: 100%;
   }
 
   .setting-item {
@@ -167,55 +209,6 @@
       padding: 8px 10px;
       font-size: 0.875rem;
       min-height: 44px;
-    }
-
-    /* Mobile Collapsible Settings */
-    .settings-details {
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.02);
-      overflow: hidden;
-      transition: background var(--transition-fast);
-    }
-
-    .settings-summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      min-height: 44px;
-      padding: 10px 14px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      user-select: none;
-      list-style: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .settings-summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .summary-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .summary-arrow {
-      display: flex;
-      align-items: center;
-      transition: transform var(--transition-normal);
-    }
-
-    .settings-details[open] .summary-arrow {
-      transform: rotate(180deg);
-    }
-
-    .settings-details[open] .settings-summary {
-      color: var(--player1-color);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .option-selectors {
